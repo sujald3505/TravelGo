@@ -1,0 +1,156 @@
+.register-section{
+
+    min-height:100vh;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    padding:40px;
+
+    background:
+    linear-gradient(rgba(0,0,0,.45),rgba(0,0,0,.45)),
+    url("/images/about-hero.jpg");
+
+    background-size:cover;
+    background-position:center;
+
+}
+
+.register-card{
+
+    width:500px;
+
+    background:rgba(255,255,255,.95);
+
+    padding:40px;
+
+    border-radius:20px;
+
+    box-shadow:0 15px 40px rgba(0,0,0,.2);
+
+}
+
+.register-header{
+
+    text-align:center;
+
+    margin-bottom:30px;
+
+}
+
+.register-header h1{
+
+    font-size:34px;
+
+    margin-bottom:10px;
+
+}
+
+.register-header p{
+
+    color:#64748b;
+
+}
+
+.form-group{
+
+    margin-bottom:20px;
+
+}
+
+.form-group label{
+
+    display:block;
+
+    margin-bottom:8px;
+
+    font-weight:600;
+
+}
+
+.form-group input{
+
+    width:100%;
+
+    padding:15px;
+
+    border:1px solid #d1d5db;
+
+    border-radius:10px;
+
+    font-size:16px;
+
+    outline:none;
+
+    box-sizing:border-box;
+
+}
+
+.form-group input:focus{
+
+    border-color:#2563eb;
+
+}
+
+button{
+
+    width:100%;
+
+    padding:16px;
+
+    background:#2563eb;
+
+    color:white;
+
+    border:none;
+
+    border-radius:10px;
+
+    font-size:17px;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+}
+
+button:hover{
+
+    background:#1d4ed8;
+
+}
+
+.login-link{
+
+    margin-top:25px;
+
+    text-align:center;
+
+}
+
+.login-link a{
+
+    color:#2563eb;
+
+    text-decoration:none;
+
+    font-weight:600;
+
+}
+.error {
+  display: block;
+  margin-top: 5px;
+  color: #dc2626;
+  font-size: 12px;
+}
+.input-error {
+  border-color: #dc2626 !important;
+}
+
+.auth-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}

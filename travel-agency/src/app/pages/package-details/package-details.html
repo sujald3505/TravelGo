@@ -1,0 +1,213 @@
+<section class="package-details">
+
+  @if (isLoading) {
+
+    <div class="loading-section">
+      <h2>Loading package...</h2>
+    </div>
+
+  } @else if (package) {
+
+    <div class="package-container">
+
+      <!-- ============================= -->
+      <!-- LEFT : IMAGE SECTION -->
+      <!-- ============================= -->
+
+      <div class="image-section">
+
+        <div class="main-image">
+
+          @if (selectedImage) {
+
+            <img
+              [src]="selectedImage"
+              [alt]="package.name"
+              (error)="onImageError($event)"
+            />
+
+          } @else {
+
+            <img
+              src="https://placehold.co/800x550?text=Travel+Package"
+              [alt]="package.name"
+            />
+
+          }
+
+          @if (package.isFeatured) {
+
+            <span class="featured-badge">
+              ⭐ Featured
+            </span>
+
+          }
+
+        </div>
+
+
+        <!-- Thumbnails -->
+
+        @if (
+          package.packageImages &&
+          package.packageImages.length > 0
+        ) {
+
+          <div class="thumbnail-grid">
+
+            @for (
+              image of package.packageImages;
+              track image.id
+            ) {
+
+              <div
+                class="thumbnail"
+                [class.active]="
+                  selectedImage === getImageUrl(image.imageUrl)
+                "
+                (click)="changeImage(image.imageUrl)"
+              >
+
+                <img
+                  [src]="getImageUrl(image.imageUrl)"
+                  [alt]="package.name"
+                  (error)="onThumbnailError($event)"
+                />
+
+              </div>
+
+            }
+
+          </div>
+
+        }
+
+      </div>
+
+
+      <!-- ============================= -->
+      <!-- RIGHT : DETAILS SECTION -->
+      <!-- ============================= -->
+
+      <div class="details-section">
+
+        <h1>
+          {{ package.name }}
+        </h1>
+
+
+        <p class="destination">
+          📍 {{ package.destinationName }}
+        </p>
+
+
+        <div class="price">
+          ₹ {{ package.price }}
+        </div>
+
+
+        <!-- Info -->
+
+        <div class="info-grid">
+
+          <div class="info-box">
+
+            <span class="info-icon">
+              📅
+            </span>
+
+            <div>
+              <small>Duration</small>
+
+              <strong>
+                {{ package.duration }} Days
+              </strong>
+            </div>
+
+          </div>
+
+
+          <div class="info-box">
+
+            <span class="info-icon">
+              👥
+            </span>
+
+            <div>
+              <small>Group Size</small>
+
+              <strong>
+                {{ package.maxPeople }} People
+              </strong>
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <!-- Description -->
+
+        <div class="description">
+
+          <h3>
+            Description
+          </h3>
+
+          <p>
+            {{ package.description }}
+          </p>
+
+        </div>
+
+
+        <!-- Buttons -->
+
+        <div class="buttons">
+
+          <button
+            class="book-btn"
+            [routerLink]="[
+              '/hotels/destination',
+              package.destinationId,
+              'package',
+              package.id
+            ]"
+          >
+            View Hotels
+          </button>
+
+
+          <button
+            class="back-btn"
+            [routerLink]="[
+              '/packages/destination',
+              package.destinationId
+            ]"
+          >
+            Back to Packages
+          </button>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  } @else {
+
+    <div class="not-found">
+
+      <h2>
+        Package Not Found
+      </h2>
+
+      <button routerLink="/packages">
+        Back to Packages
+      </button>
+
+    </div>
+
+  }
+
+</section>

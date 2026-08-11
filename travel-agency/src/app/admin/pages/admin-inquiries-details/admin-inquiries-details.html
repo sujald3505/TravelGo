@@ -1,0 +1,104 @@
+<div class="details-page">
+  <!-- Header -->
+  <div class="page-header">
+    <div>
+      <h1>Inquiry Details</h1>
+      <p>View customer inquiry details.</p>
+    </div>
+
+    <button type="button" class="back-btn" (click)="goBack()">← Back</button>
+  </div>
+
+  <!-- Loading -->
+  <div class="loading" *ngIf="isLoading">Loading inquiry details...</div>
+
+  <!-- Error -->
+  <div class="error-message" *ngIf="!isLoading && errorMessage">
+    {{ errorMessage }}
+  </div>
+
+  <!-- Details -->
+  <div class="details-card" *ngIf="!isLoading && inquiry">
+    <!-- Customer -->
+    <div class="card-header">
+      <div class="customer-icon">
+        <i class="fa-solid fa-user"></i>
+      </div>
+
+      <div>
+        <h2>{{ inquiry.fullname }}</h2>
+        <span>Customer Inquiry</span>
+      </div>
+    </div>
+
+    <!-- Information -->
+    <div class="info-grid">
+      <!-- Name -->
+      <div class="info-item">
+        <span class="label"> Full Name </span>
+
+        <span class="value">
+          {{ inquiry.fullName || 'N/A' }}
+        </span>
+      </div>
+
+      <!-- Email -->
+      <div class="info-item">
+        <span class="label"> Email </span>
+
+        <span class="value email">
+          {{ inquiry.email || 'N/A' }}
+        </span>
+      </div>
+
+      <!-- Phone -->
+      <div class="info-item">
+        <span class="label"> Phone </span>
+
+        <span class="value">
+          {{ inquiry.phone || 'N/A' }}
+        </span>
+      </div>
+
+      <!-- Subject -->
+      <div class="info-item">
+        <span class="label"> Subject </span>
+
+        <span class="value">
+          {{ inquiry.subject || 'No Subject' }}
+        </span>
+      </div>
+
+      <!-- Date -->
+      <div class="info-item">
+        <span class="label"> Submitted Date </span>
+
+        <span class="value">
+          {{ inquiry.createdAt ? (inquiry.createdAt | date: 'dd MMM yyyy, hh:mm a') : 'N/A' }}
+        </span>
+      </div>
+    </div>
+
+    <!-- Message -->
+    <div class="message-section">
+      <h3>
+        <i class="fa-solid fa-message"></i>
+        Customer Message
+      </h3>
+
+      <div class="message-box">
+        {{ inquiry.message || 'No message available.' }}
+      </div>
+    </div>
+
+    <!-- Actions -->
+    <div class="actions">
+      <button type="button" class="back-action" (click)="goBack()">← Back to Inquiries</button>
+
+      <button type="button" class="delete-action" (click)="deleteInquiry()">
+        <i class="fa-solid fa-trash"></i>
+        Delete Inquiry
+      </button>
+    </div>
+  </div>
+</div>

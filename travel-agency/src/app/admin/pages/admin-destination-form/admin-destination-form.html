@@ -1,0 +1,265 @@
+<section class="destination-form-page">
+  <!-- Header -->
+
+  <div class="form-header">
+    <div class="header-left">
+      <button type="button" class="back-btn" (click)="cancel()">←</button>
+
+      <div>
+        <h1>Add Destination</h1>
+
+        <p>Create a new travel destination for TravelGo.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Form -->
+
+  <form [formGroup]="destinationForm" (ngSubmit)="submit()" class="destination-form">
+    <!-- Basic Information -->
+
+    <div class="form-card">
+      <div class="card-header">
+        <div class="card-icon">🌍</div>
+
+        <div>
+          <h2>Destination Information</h2>
+
+          <p>Enter the basic information about the destination.</p>
+        </div>
+      </div>
+
+      <div class="form-grid">
+        <!-- Name -->
+
+        <div class="form-group">
+          <label>
+            Destination Name
+            <span>*</span>
+          </label>
+
+          <input type="text" formControlName="name" placeholder="e.g. Goa Beach" />
+
+          @if (f.name.touched && f.name.invalid) {
+            <small class="error"> Destination name is required. </small>
+          }
+        </div>
+
+        <!-- Country -->
+
+        <div class="form-group">
+          <label>
+            Country
+            <span>*</span>
+          </label>
+
+          <input type="text" formControlName="country" placeholder="e.g. India" />
+
+          @if (f.country.touched && f.country.invalid) {
+            <small class="error"> Country is required. </small>
+          }
+        </div>
+
+        <!-- City -->
+
+        <div class="form-group">
+          <label>
+            City
+            <span>*</span>
+          </label>
+
+          <input type="text" formControlName="city" placeholder="e.g. Goa" />
+
+          @if (f.city.touched && f.city.invalid) {
+            <small class="error"> City is required. </small>
+          }
+        </div>
+
+        <!-- Category -->
+
+        <div class="form-group">
+          <label>
+            Category
+            <span>*</span>
+          </label>
+
+          <select formControlName="category">
+            <option value="">Select Category</option>
+
+            <option value="Beach">Beach</option>
+
+            <option value="Mountain">Mountain</option>
+
+            <option value="Adventure">Adventure</option>
+
+            <option value="Nature">Nature</option>
+
+            <option value="Historical">Historical</option>
+
+            <option value="Religious">Religious</option>
+
+            <option value="City">City</option>
+          </select>
+
+          @if (f.category.touched && f.category.invalid) {
+            <small class="error"> Please select a category. </small>
+          }
+        </div>
+
+        <!-- Description -->
+
+        <div class="form-group full-width">
+          <label>
+            Description
+            <span>*</span>
+          </label>
+
+          <textarea
+            rows="5"
+            formControlName="description"
+            placeholder="Write a short description about this destination..."
+          ></textarea>
+
+          @if (f.description.touched && f.description.invalid) {
+            <small class="error"> Description must contain at least 10 characters. </small>
+          }
+        </div>
+      </div>
+    </div>
+    <!-- =========================
+     DESTINATION IMAGE
+========================= -->
+
+    <div class="form-card">
+      <div class="card-header">
+        <div class="card-icon">🖼️</div>
+
+        <div>
+          <h2>Destination Image</h2>
+
+          <p>Upload a beautiful image for this destination.</p>
+        </div>
+      </div>
+
+      <div class="image-upload-area">
+        <!-- Preview -->
+
+        <div class="image-preview" *ngIf="imagePreview">
+          <img [src]="imagePreview" alt="Destination Preview" />
+
+          <button type="button" class="remove-image-btn" (click)="removeImage()">✕</button>
+        </div>
+
+        <!-- Upload Box -->
+
+        <label class="upload-box" *ngIf="!imagePreview">
+          <div class="upload-icon">📷</div>
+
+          <strong> Choose Destination Image </strong>
+
+          <span> JPG, PNG or WEBP · Maximum 5 MB </span>
+
+          <input
+            type="file"
+            accept="image/png,image/jpeg,image/webp"
+            (change)="onImageSelected($event)"
+          />
+        </label>
+
+        <!-- Selected File -->
+
+        <div class="selected-file" *ngIf="selectedFile">
+          <span>📎</span>
+
+          <div>
+            <strong>
+              {{ selectedFile.name }}
+            </strong>
+
+            <small> {{ (selectedFile.size / 1024 / 1024).toFixed(2) }} MB </small>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Destination Details -->
+
+    <div class="form-card">
+      <div class="card-header">
+        <div class="card-icon">📊</div>
+
+        <div>
+          <h2>Destination Details</h2>
+
+          <p>Add duration, pricing and rating information.</p>
+        </div>
+      </div>
+
+      <div class="form-grid">
+        <!-- Rating -->
+
+        <div class="form-group">
+          <label>
+            Rating
+            <span>*</span>
+          </label>
+
+          <div class="input-with-unit">
+            <input
+              type="number"
+              formControlName="rating"
+              min="0"
+              max="5"
+              step="0.1"
+              placeholder="4.8"
+            />
+
+            <span>⭐ / 5</span>
+          </div>
+
+          @if (f.rating.touched && f.rating.invalid) {
+            <small class="error"> Rating must be between 0 and 5. </small>
+          }
+        </div>
+
+        <!-- Popular -->
+
+        <div class="popular-option">
+          <label class="checkbox-label">
+            <input type="checkbox" formControlName="isPopular" />
+
+            <span class="checkmark"></span>
+
+            <div>
+              <strong> Mark as Popular </strong>
+
+              <small> Show this destination as a popular destination. </small>
+            </div>
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <!-- Actions -->
+
+    <div class="form-actions">
+      <button type="button" class="cancel-btn" (click)="cancel()" [disabled]="isSubmitting">
+        Cancel
+      </button>
+
+      <button type="button" class="save-btn" (click)="submit()" [disabled]="isSubmitting">
+        <span class="button-spinner" *ngIf="isSubmitting"></span>
+
+        <span *ngIf="!isSubmitting"> 💾 </span>
+
+        {{
+          isUploadingImage
+            ? 'Uploading Image...'
+            : isSubmitting
+              ? 'Creating Destination...'
+              : 'Save Destination'
+        }}
+      </button>
+    </div>
+  </form>
+</section>

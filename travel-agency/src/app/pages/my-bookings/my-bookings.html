@@ -1,0 +1,376 @@
+<section class="my-bookings-page">
+
+  <!-- Header -->
+
+  <div class="page-header">
+
+    <div>
+
+      <span class="page-label">
+         TRAVELGO
+      </span>
+
+      <h1>
+        My Bookings
+      </h1>
+
+      <p>
+        Manage and track all your travel bookings in one place.
+      </p>
+
+    </div>
+
+  </div>
+
+
+  <!-- Loading -->
+
+  @if (isLoading) {
+
+    <div class="loading-box">
+
+      <div class="spinner"></div>
+
+      <p>
+        Loading your bookings...
+      </p>
+
+    </div>
+
+  }
+
+
+  @if (!isLoading) {
+
+    <!-- Statistics -->
+
+    <div class="stats-grid">
+
+      <div class="stat-card">
+
+        <div class="stat-icon">
+          📋
+        </div>
+
+        <div>
+
+          <span>
+            Total Bookings
+          </span>
+
+          <strong>
+            {{ totalBookings }}
+          </strong>
+
+        </div>
+
+      </div>
+
+
+      <div class="stat-card">
+
+        <div class="stat-icon">
+          ⏳
+        </div>
+
+        <div>
+
+          <span>
+            Pending
+          </span>
+
+          <strong>
+            {{ pendingBookings }}
+          </strong>
+
+        </div>
+
+      </div>
+
+
+      <div class="stat-card">
+
+        <div class="stat-icon">
+          ✓
+        </div>
+
+        <div>
+
+          <span>
+            Confirmed
+          </span>
+
+          <strong>
+            {{ confirmedBookings }}
+          </strong>
+
+        </div>
+
+      </div>
+
+
+      <div class="stat-card">
+
+        <div class="stat-icon">
+          ₹
+        </div>
+
+        <div>
+
+          <span>
+            Total Spent
+          </span>
+
+          <strong>
+            ₹ {{ totalAmount | number }}
+          </strong>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- Filters -->
+
+    <div class="filter-section">
+
+      <div class="search-box">
+
+        <span class="search-icon">
+          🔍
+        </span>
+
+        <input
+          type="text"
+          [(ngModel)]="searchText"
+          (input)="filterBookings()"
+          placeholder="Search destination, package, hotel or booking ID..."
+        >
+
+      </div>
+
+
+      <select
+        [(ngModel)]="selectedStatus"
+        (change)="filterBookings()">
+
+        <option value="All">
+          All Status
+        </option>
+
+        <option value="Pending">
+          Pending
+        </option>
+
+        <option value="Confirmed">
+          Confirmed
+        </option>
+
+        <option value="Completed">
+          Completed
+        </option>
+
+        <option value="Cancelled">
+          Cancelled
+        </option>
+
+      </select>
+
+    </div>
+
+
+    <!-- Empty -->
+
+    @if (filteredBookings.length === 0) {
+
+      <div class="empty-state">
+
+        <div class="empty-icon">
+          ✈️
+        </div>
+
+        <h2>
+          No Bookings Found
+        </h2>
+
+        <p>
+          You don't have any bookings matching your search.
+        </p>
+
+        <a
+          routerLink="/destinations"
+          class="explore-btn">
+
+          Explore Destinations
+
+        </a>
+
+      </div>
+
+    }
+
+
+    <!-- Booking Cards -->
+
+    @if (filteredBookings.length > 0) {
+
+      <div class="booking-list">
+
+        @for (booking of filteredBookings; track booking.id) {
+
+          <div class="booking-card">
+
+            <!-- Card Header -->
+
+            <div class="booking-card-header">
+
+              <div>
+
+                <span class="booking-label">
+                  BOOKING ID
+                </span>
+
+                <strong>
+                  #{{ booking.id }}
+                </strong>
+
+              </div>
+
+              <span
+                class="status"
+                [ngClass]="getStatusClass(booking.status)">
+
+                {{ booking.status }}
+
+              </span>
+
+            </div>
+
+
+            <!-- Main -->
+
+            <div class="booking-main">
+
+              <div class="destination-info">
+
+                <div class="destination-icon">
+                  🌍
+                </div>
+
+                <div>
+
+                  <span class="small-label">
+                    DESTINATION
+                  </span>
+
+                  <h2>
+                    {{ booking.destinationName }}
+                  </h2>
+
+                </div>
+
+              </div>
+
+
+              <div class="booking-details-grid">
+
+                <div class="detail-item">
+
+                  <span>
+                    📦 Package
+                  </span>
+
+                  <strong>
+                    {{ booking.packageName }}
+                  </strong>
+
+                </div>
+
+
+                <div class="detail-item">
+
+                  <span>
+                    🏨 Hotel
+                  </span>
+
+                  <strong>
+                    {{ booking.hotelName }}
+                  </strong>
+
+                </div>
+
+
+                <div class="detail-item">
+
+                  <span>
+                    📅 Travel Date
+                  </span>
+
+                  <strong>
+                    {{ booking.travelDate | date:'dd MMM yyyy' }}
+                  </strong>
+
+                </div>
+
+
+                <div class="detail-item">
+
+                  <span>
+                    👥 People
+                  </span>
+
+                  <strong>
+                    {{ booking.numberOfPeople }}
+                  </strong>
+
+                </div>
+
+              </div>
+
+            </div>
+
+
+            <!-- Footer -->
+
+            <div class="booking-card-footer">
+
+              <div class="amount">
+
+                <span>
+                  Total Amount
+                </span>
+
+                <strong>
+                  ₹ {{ booking.totalAmount | number }}
+                </strong>
+
+              </div>
+
+
+              <a
+                [routerLink]="[
+                  '/booking-details',
+                  booking.id
+                ]"
+                class="details-btn">
+
+                View Details
+                <span>→</span>
+
+              </a>
+
+            </div>
+
+          </div>
+
+        }
+
+      </div>
+
+    }
+
+  }
+
+</section>

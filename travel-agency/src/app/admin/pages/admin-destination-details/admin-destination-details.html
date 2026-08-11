@@ -1,0 +1,255 @@
+<section class="details-page">
+
+  @if (isLoading) {
+
+    <div class="loading-state">
+
+      <div class="spinner"></div>
+
+      <p>Loading destination...</p>
+
+    </div>
+
+  } @else if (destination) {
+
+    <!-- =========================
+         HEADER
+    ========================== -->
+
+    <div class="page-header">
+
+      <button
+        type="button"
+        class="back-btn"
+        (click)="goBack()"
+      >
+        ←
+      </button>
+
+      <div class="header-content">
+
+        <span class="eyebrow">
+          DESTINATION DETAILS
+        </span>
+
+        <h1>
+          {{ destination.name }}
+        </h1>
+
+        <p>
+          View complete destination information.
+        </p>
+
+      </div>
+
+      <button
+        type="button"
+        class="edit-btn"
+        (click)="editDestination()"
+      >
+        ✏️ Edit Destination
+      </button>
+
+    </div>
+
+
+    <!-- =========================
+         MAIN CONTENT
+    ========================== -->
+
+    <div class="details-layout">
+
+
+      <!-- IMAGE -->
+
+      <div class="image-card">
+
+        <div class="image-wrapper">
+
+          <img
+            [src]="getImageUrl()"
+            [alt]="destination.name"
+          />
+
+          @if (destination.isPopular) {
+
+            <span class="popular-badge">
+              ⭐ Popular
+            </span>
+
+          }
+
+        </div>
+
+      </div>
+
+
+      <!-- INFORMATION -->
+
+      <div class="info-card">
+
+        <div class="card-title">
+
+          <div>
+            <span class="section-label">
+              INFORMATION
+            </span>
+
+            <h2>
+              Destination Information
+            </h2>
+          </div>
+
+        </div>
+
+
+        <div class="info-grid">
+
+          <!-- Name -->
+
+          <div class="info-item">
+
+            <span class="info-label">
+              Destination Name
+            </span>
+
+            <strong>
+              {{ destination.name }}
+            </strong>
+
+          </div>
+
+
+          <!-- Country -->
+
+          <div class="info-item">
+
+            <span class="info-label">
+              Country
+            </span>
+
+            <strong>
+              {{ destination.country }}
+            </strong>
+
+          </div>
+
+
+          <!-- City -->
+
+          <div class="info-item">
+
+            <span class="info-label">
+              City
+            </span>
+
+            <strong>
+              {{ destination.city }}
+            </strong>
+
+          </div>
+
+
+          <!-- Category -->
+
+          <div class="info-item">
+
+            <span class="info-label">
+              Category
+            </span>
+
+            <strong class="category">
+              {{ destination.category }}
+            </strong>
+
+          </div>
+
+
+          <!-- Rating -->
+
+          <div class="info-item">
+
+            <span class="info-label">
+              Rating
+            </span>
+
+            <strong class="rating">
+              ⭐ {{ destination.rating }} / 5
+            </strong>
+
+          </div>
+
+
+          <!-- Popular -->
+
+          <div class="info-item">
+
+            <span class="info-label">
+              Popular Destination
+            </span>
+
+            @if (destination.isPopular) {
+
+              <strong class="status popular">
+                Yes
+              </strong>
+
+            } @else {
+
+              <strong class="status normal">
+                No
+              </strong>
+
+            }
+
+          </div>
+
+        </div>
+
+
+        <!-- Description -->
+
+        <div class="description-section">
+
+          <span class="info-label">
+            Description
+          </span>
+
+          <p>
+            {{ destination.description }}
+          </p>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- =========================
+         BOTTOM ACTIONS
+    ========================== -->
+
+    <div class="bottom-actions">
+
+      <button
+        type="button"
+        class="secondary-btn"
+        (click)="goBack()"
+      >
+        ← Back to Destinations
+      </button>
+
+      <button
+        type="button"
+        class="primary-btn"
+        (click)="editDestination()"
+      >
+        ✏️ Edit Destination
+      </button>
+
+    </div>
+
+  }
+
+</section>

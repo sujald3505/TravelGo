@@ -1,0 +1,84 @@
+<section class="admin-login-page">
+  <div class="admin-login-card">
+    <!-- Logo -->
+    <div class="admin-brand">
+      <div class="brand-icon">✈️</div>
+
+      <div>
+        <h1>TravelGo</h1>
+        <span>ADMIN PANEL</span>
+      </div>
+    </div>
+
+    <!-- Header -->
+    <div class="login-header">
+      <h2>Welcome Back</h2>
+
+      <p>Login to access your TravelGo administration panel.</p>
+    </div>
+
+    <!-- Form -->
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <!-- Email -->
+      <div class="form-group">
+        <label for="email"> Email Address </label>
+
+        <input
+          id="email"
+          type="email"
+          formControlName="email"
+          placeholder="Enter admin email"
+          autocomplete="email"
+        />
+
+        @if (email.touched && email.hasError('required')) {
+          <small class="error"> Email is required. </small>
+        }
+
+        @if (email.touched && email.hasError('email')) {
+          <small class="error"> Please enter a valid email address. </small>
+        }
+      </div>
+
+      <!-- Password -->
+      <div class="form-group">
+        <label for="password"> Password </label>
+
+        <input
+          id="password"
+          type="password"
+          formControlName="password"
+          placeholder="Enter password"
+          autocomplete="current-password"
+        />
+
+        @if (password.touched && password.hasError('required')) {
+          <small class="error"> Password is required. </small>
+        }
+
+        @if (password.touched && password.hasError('minlength')) {
+          <small class="error"> Password must be at least 6 characters. </small>
+        }
+      </div>
+
+      <!-- Error -->
+      @if (errorMessage) {
+        <div class="login-error">⚠️ {{ errorMessage }}</div>
+      }
+
+      <!-- Login Button -->
+      <button type="submit" class="login-btn" [disabled]="isLoading">
+        @if (isLoading) {
+          <span class="spinner"></span>
+
+          Logging in...
+        } @else {
+          Login to Admin Panel
+        }
+      </button>
+
+      <!-- Back -->
+      <button type="button" class="back-home" (click)="goHome()">← Back to TravelGo</button>
+    </form>
+  </div>
+</section>

@@ -1,0 +1,104 @@
+<section class="booking-container">
+
+  <div class="booking-header">
+    <h1>Complete Your Booking</h1>
+    <p>
+      Review your trip details and enter your travel information.
+    </p>
+  </div>
+
+  <div class="booking-grid">
+
+    <!-- Left -->
+    <div class="booking-summary">
+
+      <h2>Booking Summary</h2>
+
+      <div class="summary-item">
+        <span>Destination</span>
+        <strong>{{ destination.name }}</strong>
+      </div>
+
+      <div class="summary-item">
+        <span>Package</span>
+        <strong>{{ package.name }}</strong>
+      </div>
+
+      <div class="summary-item">
+        <span>Hotel</span>
+        <strong>{{ hotel.name }}</strong>
+      </div>
+
+      <hr>
+
+      <div class="summary-item">
+        <span>Package Price</span>
+        <strong>₹ {{ package.price }}</strong>
+      </div>
+
+      <div class="summary-item">
+        <span>Hotel Price / Night</span>
+        <strong>₹ {{ hotel.pricePerNight }}</strong>
+      </div>
+
+      <div class="summary-item">
+        <span>People</span>
+        <strong>{{ booking.numberOfPeople }}</strong>
+      </div>
+
+      <hr>
+
+      <div class="total">
+        <span>Total Amount</span>
+        <strong>
+          ₹ {{ booking.totalAmount }}
+        </strong>
+      </div>
+
+    </div>
+
+    <!-- Right -->
+
+    <form
+      class="booking-form"
+      (ngSubmit)="submitBooking()">
+
+      <h2>Traveller Details</h2>
+
+      <div class="form-group">
+        <label>Travel Date</label>
+
+        <input
+          type="date"
+          [(ngModel)]="booking.travelDate"
+          name="travelDate"
+          required>
+      </div>
+
+      <div class="form-group">
+
+        <label>Number of People</label>
+
+        <input
+          type="number"
+          min="1"
+          [(ngModel)]="booking.numberOfPeople"
+          name="numberOfPeople"
+          (ngModelChange)="calculateTotal()"
+          required>
+
+      </div>
+
+      <button
+        class="booking-btn"
+        type="submit">
+
+        Proceed To Payment →
+
+      </button>
+
+    </form>
+
+  </div>
+
+</section>

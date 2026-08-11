@@ -1,0 +1,281 @@
+<section class="register-section">
+
+  <div class="register-card">
+
+    <div class="register-header">
+
+      <h1>Create Account ✈️</h1>
+
+      <p>
+        Join us and start exploring amazing destinations.
+      </p>
+
+    </div>
+
+
+    <form
+      [formGroup]="registerForm"
+      (ngSubmit)="onSubmit()"
+      novalidate>
+
+
+      <!-- First Name -->
+      <div class="form-group">
+
+        <label>First Name</label>
+
+        <input
+          type="text"
+          formControlName="firstName"
+          placeholder="Enter first name"
+          autocomplete="given-name"
+        />
+
+        @if (
+          firstName.touched &&
+          firstName.hasError('required')
+        ) {
+
+          <small class="error">
+            First name is required.
+          </small>
+
+        }
+
+        @if (
+          firstName.touched &&
+          firstName.hasError('maxlength')
+        ) {
+
+          <small class="error">
+            First name cannot exceed 50 characters.
+          </small>
+
+        }
+
+      </div>
+
+
+      <!-- Last Name -->
+      <div class="form-group">
+
+        <label>Last Name</label>
+
+        <input
+          type="text"
+          formControlName="lastName"
+          placeholder="Enter last name"
+          autocomplete="family-name"
+        />
+
+        @if (
+          lastName.touched &&
+          lastName.hasError('required')
+        ) {
+
+          <small class="error">
+            Last name is required.
+          </small>
+
+        }
+
+        @if (
+          lastName.touched &&
+          lastName.hasError('maxlength')
+        ) {
+
+          <small class="error">
+            Last name cannot exceed 50 characters.
+          </small>
+
+        }
+
+      </div>
+
+
+      <!-- Email -->
+      <div class="form-group">
+
+        <label>Email Address</label>
+
+        <input
+          type="email"
+          formControlName="email"
+          placeholder="Enter your email"
+          autocomplete="email"
+        />
+
+        @if (
+          email.touched &&
+          email.hasError('required')
+        ) {
+
+          <small class="error">
+            Email is required.
+          </small>
+
+        }
+
+        @if (
+          email.touched &&
+          email.hasError('email')
+        ) {
+
+          <small class="error">
+            Please enter a valid email address.
+          </small>
+
+        }
+
+      </div>
+
+
+      <!-- Phone -->
+      <div class="form-group">
+
+        <label>Phone Number</label>
+
+        <input
+          type="text"
+          formControlName="phoneNumber"
+          placeholder="Enter phone number"
+          maxlength="10"
+          inputmode="numeric"
+          autocomplete="tel"
+        />
+
+        @if (
+          phoneNumber.touched &&
+          phoneNumber.hasError('required')
+        ) {
+
+          <small class="error">
+            Phone number is required.
+          </small>
+
+        }
+
+        @if (
+          phoneNumber.touched &&
+          phoneNumber.hasError('pattern')
+        ) {
+
+          <small class="error">
+            Enter a valid 10-digit phone number.
+          </small>
+
+        }
+
+      </div>
+
+
+      <!-- Password -->
+      <div class="form-group">
+
+        <label>Password</label>
+
+        <input
+          type="password"
+          formControlName="password"
+          placeholder="Create password"
+          autocomplete="new-password"
+        />
+
+        @if (
+          password.touched &&
+          password.hasError('required')
+        ) {
+
+          <small class="error">
+            Password is required.
+          </small>
+
+        }
+
+        @if (
+          password.touched &&
+          password.hasError('minlength')
+        ) {
+
+          <small class="error">
+            Password must be at least 6 characters.
+          </small>
+
+        }
+
+      </div>
+
+
+      <!-- Confirm Password -->
+      <div class="form-group">
+
+        <label>Confirm Password</label>
+
+        <input
+          type="password"
+          formControlName="confirmPassword"
+          placeholder="Confirm password"
+          autocomplete="new-password"
+        />
+
+        @if (
+          confirmPassword.touched &&
+          confirmPassword.hasError('required')
+        ) {
+
+          <small class="error">
+            Confirm password is required.
+          </small>
+
+        }
+
+        @if (
+          confirmPassword.touched &&
+          confirmPassword.hasError('mismatch')
+        ) {
+
+          <small class="error">
+            Passwords do not match.
+          </small>
+
+        }
+
+      </div>
+
+
+      <!-- API Error -->
+      @if (errorMessage) {
+
+        <p class="error">
+          {{ errorMessage }}
+        </p>
+
+      }
+
+
+      <!-- Register Button -->
+      <button
+        type="submit"
+        [disabled]="isLoading">
+
+        {{ isLoading ? 'Creating...' : 'Create Account' }}
+
+      </button>
+
+
+      <!-- Login -->
+      <p class="login-link">
+
+        Already have an account?
+
+        <a routerLink="/login">
+          Login
+        </a>
+
+      </p>
+
+    </form>
+
+  </div>
+
+</section>

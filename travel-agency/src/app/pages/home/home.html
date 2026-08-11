@@ -1,0 +1,234 @@
+<!-- =========================================
+     HERO
+========================================= -->
+
+<section class="hero" style="background-image: url('images/Homepage.jpg')">
+  <div class="hero-content">
+
+    <h1>Explore the World With TravelGo</h1>
+
+    <p>
+      Discover amazing destinations, unforgettable adventures, and travel experiences crafted just
+      for you.
+    </p>
+
+    <div class="hero-buttons">
+      <button class="btn-primary" routerLink="/destinations">Explore Tours</button>
+
+      <button class="btn-secondary" routerLink="/about">Learn More</button>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================
+     POPULAR DESTINATIONS
+========================================= -->
+
+<section class="destinations">
+  <div class="section-title">
+    <h2>Popular Destinations</h2>
+
+    <p>Choose your next unforgettable journey.</p>
+  </div>
+
+  <!-- Loading -->
+
+  <div class="home-loading" *ngIf="isLoadingDestinations">Loading destinations...</div>
+
+  <!-- Error -->
+
+  <div class="home-error" *ngIf="!isLoadingDestinations && destinationError">
+    {{ destinationError }}
+  </div>
+
+  <!-- Destination Cards -->
+
+  <div class="destination-grid" *ngIf="!isLoadingDestinations && !destinationError">
+    @for (destination of destinations; track destination.id) {
+      <div class="destination-card">
+        <img
+          [src]="getDestinationImage(destination.thumbnail)"
+          [alt]="destination.name"
+          (error)="onDestinationImageError($event)"
+        />
+
+        <div class="card-content">
+          <h3>
+            {{ destination.name }}
+          </h3>
+
+          <p>
+            {{ destination.description }}
+          </p>
+        </div>
+      </div>
+    }
+
+    <!-- No destinations -->
+
+    <div class="home-empty" *ngIf="destinations.length === 0">
+      <p>No destinations available.</p>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================
+     FEATURED PACKAGES
+========================================= -->
+
+<section class="packages">
+  <div class="section-title">
+    <h2>Featured Tour Packages</h2>
+
+    <p>Choose the perfect package for your next trip.</p>
+  </div>
+
+  <!-- Loading -->
+
+  <div class="home-loading" *ngIf="isLoadingPackages">Loading packages...</div>
+
+  <!-- Error -->
+
+  <div class="home-error" *ngIf="!isLoadingPackages && packageError">
+    {{ packageError }}
+  </div>
+
+  <!-- Package Cards -->
+
+  <div class="package-grid" *ngIf="!isLoadingPackages && !packageError">
+    @for (pkg of packages; track pkg.id) {
+      <div class="package-card">
+        <img [src]="getPackageImage(pkg)" [alt]="pkg.name" (error)="onPackageImageError($event)" />
+
+        <div class="package-content">
+          <h3>
+            {{ pkg.name }}
+          </h3>
+
+          <p>{{ pkg.duration }} Days</p>
+
+          <div class="package-footer">
+            <span class="price"> ₹{{ pkg.price | number }} </span>
+
+            <span> 👥 {{ pkg.maxPeople }} </span>
+          </div>
+
+          <button [routerLink]="['/packages/details', pkg.id]">View Package</button>
+        </div>
+      </div>
+    }
+
+    <!-- No packages -->
+
+    <div class="home-empty" *ngIf="packages.length === 0">
+      <p>No packages available.</p>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================
+     WHY CHOOSE US
+========================================= -->
+
+<section class="why-us">
+  <div class="section-title">
+    <h2>Why Choose TravelGo?</h2>
+
+    <p>Your trusted travel partner for unforgettable journeys.</p>
+  </div>
+
+  <div class="why-grid">
+    <div class="why-card">
+      <div class="icon">✈️</div>
+
+      <h3>Best Destinations</h3>
+
+      <p>Explore the world's most beautiful places with our curated tours.</p>
+    </div>
+
+    <div class="why-card">
+      <div class="icon">💰</div>
+
+      <h3>Affordable Prices</h3>
+
+      <p>Enjoy premium travel experiences at competitive prices.</p>
+    </div>
+
+    <div class="why-card">
+      <div class="icon">🛡️</div>
+
+      <h3>Safe Journey</h3>
+
+      <p>Your comfort and safety are our highest priority.</p>
+    </div>
+
+    <div class="why-card">
+      <div class="icon">📞</div>
+
+      <h3>24/7 Support</h3>
+
+      <p>Our travel experts are available anytime you need assistance.</p>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================
+     TESTIMONIALS
+========================================= -->
+
+<section class="testimonials">
+  <div class="section-title">
+    <h2>What Our Customers Say</h2>
+
+    <p>Real experiences from our happy travelers.</p>
+  </div>
+
+  <div class="testimonial-grid">
+    <div class="testimonial-card">
+      <h3>Rahul Sharma</h3>
+
+      <span> Ahmedabad </span>
+
+      <p>"Amazing experience! The entire trip was perfectly planned and hassle-free."</p>
+
+      <div class="rating">⭐ 5</div>
+    </div>
+
+    <div class="testimonial-card">
+      <h3>Priya Patel</h3>
+
+      <span> Rajkot </span>
+
+      <p>"Excellent service, friendly guides and beautiful destinations."</p>
+
+      <div class="rating">⭐ 5</div>
+    </div>
+
+    <div class="testimonial-card">
+      <h3>Amit Verma</h3>
+
+      <span> Surat </span>
+
+      <p>"Best travel agency. I will definitely book my next trip with TravelGo."</p>
+
+      <div class="rating">⭐ 4.8</div>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================
+     CTA
+========================================= -->
+
+<section class="cta">
+  <div class="cta-content">
+    <h2>Ready For Your Next Adventure?</h2>
+
+    <p>
+      Book your dream vacation today and explore the world's most amazing destinations with
+      TravelGo.
+    </p>
+
+    <button routerLink="/destinations">Book Your Trip Now</button>
+  </div>
+</section>

@@ -1,0 +1,212 @@
+<div class="admin-layout">
+
+  <!-- Mobile Overlay -->
+  @if (sidebarOpen) {
+    <div
+      class="sidebar-overlay"
+      (click)="closeSidebar()">
+    </div>
+  }
+
+
+  <!-- ================= SIDEBAR ================= -->
+
+  <aside
+    class="sidebar"
+    [class.open]="sidebarOpen"
+  >
+
+    <!-- Brand -->
+    <div class="sidebar-brand">
+
+      <div class="brand-icon">
+        ✈️
+      </div>
+
+      <div class="brand-text">
+        <h2>TravelGo</h2>
+        <span>ADMIN PANEL</span>
+      </div>
+
+    </div>
+
+
+    <!-- Navigation -->
+    <nav class="sidebar-nav">
+
+      <p class="nav-title">
+        MAIN MENU
+      </p>
+
+
+      <a
+        routerLink="/admin/dashboard"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+        class="nav-item"
+        (click)="closeSidebar()"
+      >
+        <span class="nav-icon">📊</span>
+        <span>Dashboard</span>
+      </a>
+
+
+      <a
+        routerLink="/admin/destinations"
+        routerLinkActive="active"
+        class="nav-item"
+        (click)="closeSidebar()"
+      >
+        <span class="nav-icon">🌍</span>
+        <span>Destinations</span>
+      </a>
+
+
+      <a
+        routerLink="/admin/packages"
+        routerLinkActive="active"
+        class="nav-item"
+        (click)="closeSidebar()"
+      >
+        <span class="nav-icon">🎒</span>
+        <span>Packages</span>
+      </a>
+
+
+      <a
+        routerLink="/admin/hotels"
+        routerLinkActive="active"
+        class="nav-item"
+        (click)="closeSidebar()"
+      >
+        <span class="nav-icon">🏨</span>
+        <span>Hotels</span>
+      </a>
+
+
+      <a
+        routerLink="/admin/bookings"
+        routerLinkActive="active"
+        class="nav-item"
+        (click)="closeSidebar()"
+      >
+        <span class="nav-icon">📋</span>
+        <span>Bookings</span>
+      </a>
+
+
+      <a
+        routerLink="/admin/users"
+        routerLinkActive="active"
+        class="nav-item"
+        (click)="closeSidebar()"
+      >
+        <span class="nav-icon">👥</span>
+        <span>Users</span>
+      </a>
+
+      <a
+        routerLink="/admin/inquiries"
+        routerLinkActive="active"
+        class="nav-item"
+        (click)="closeSidebar()"
+      >
+        <span class="nav-icon"> 📩</span>
+        <span>Inquiries</span>
+      </a>
+
+      <p class="nav-title settings-title">
+        ACCOUNT
+      </p>
+
+
+      <button
+        type="button"
+        class="nav-item logout-item"
+        (click)="logout()"
+      >
+        <span class="nav-icon">🚪</span>
+        <span>Logout</span>
+      </button>
+
+    </nav>
+
+
+    <!-- Sidebar Footer -->
+    <div class="sidebar-footer">
+
+      <div class="admin-mini">
+
+        <div class="admin-avatar">
+          A
+        </div>
+
+        <div>
+          <strong>Administrator</strong>
+          <span>Admin</span>
+        </div>
+
+      </div>
+
+    </div>
+
+  </aside>
+
+
+  <!-- ================= MAIN ================= -->
+
+  <div class="admin-main">
+
+
+    <!-- Topbar -->
+    <header class="topbar">
+
+      <div class="topbar-left">
+
+        <button
+          type="button"
+          class="menu-btn"
+          (click)="toggleSidebar()"
+          aria-label="Toggle menu"
+        >
+          ☰
+        </button>
+
+        <div>
+          <h1>Admin Dashboard</h1>
+          <p>Manage your TravelGo platform</p>
+        </div>
+
+      </div>
+
+
+      <div class="topbar-right">
+
+        <div class="admin-profile">
+
+          <div class="profile-avatar">
+            A
+          </div>
+
+          <div class="profile-info">
+            <strong>Administrator</strong>
+            <span>Admin</span>
+          </div>
+
+        </div>
+
+      </div>
+
+    </header>
+
+
+    <!-- Page Content -->
+    <main class="admin-content">
+
+      <router-outlet></router-outlet>
+
+    </main>
+
+  </div>
+
+</div>

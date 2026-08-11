@@ -1,0 +1,245 @@
+<div class="edit-container">
+  <div class="edit-wrapper">
+    <!-- HEADER -->
+
+    <div class="page-header">
+      <div>
+        <button type="button" class="back-btn" (click)="cancel()">← Back to Hotel</button>
+
+        <h1>Edit Hotel</h1>
+
+        <p>Update hotel information and images.</p>
+      </div>
+    </div>
+
+    <!-- LOADING -->
+
+    <div *ngIf="isLoading" class="loading">
+      <div class="spinner"></div>
+
+      <p>Loading hotel...</p>
+    </div>
+
+    <!-- ERROR -->
+
+    <div *ngIf="!isLoading && errorMessage" class="alert error">
+      {{ errorMessage }}
+    </div>
+
+    <!-- SUCCESS -->
+
+    <div *ngIf="successMessage" class="alert success">✓ {{ successMessage }}</div>
+
+    <!-- FORM -->
+
+    <form *ngIf="!isLoading && hotel" (ngSubmit)="updateHotel()">
+      <!-- =========================
+           HOTEL INFORMATION
+      ========================== -->
+
+      <div class="form-card">
+        <div class="card-header">
+          <h2>Hotel Information</h2>
+
+          <p>Update the basic hotel information.</p>
+        </div>
+
+        <div class="form-body">
+          <!-- Name -->
+
+          <div class="form-group full">
+            <label>
+              Hotel Name
+              <span>*</span>
+            </label>
+
+            <input type="text" name="name" [(ngModel)]="hotelData.name" required />
+          </div>
+
+          <!-- Description -->
+
+          <div class="form-group full">
+            <label>
+              Description
+              <span>*</span>
+            </label>
+
+            <textarea name="description" rows="5" [(ngModel)]="hotelData.description" required>
+            </textarea>
+          </div>
+
+          <!-- Address -->
+
+          <div class="form-group full">
+            <label>
+              Address
+              <span>*</span>
+            </label>
+
+            <textarea name="address" rows="3" [(ngModel)]="hotelData.address" required> </textarea>
+          </div>
+
+          <!-- Destination -->
+
+          <div class="form-group">
+            <label>
+              Destination
+              <span>*</span>
+            </label>
+
+            <select name="destinationId" [(ngModel)]="hotelData.destinationId" required>
+              <option [ngValue]="0">Select Destination</option>
+
+              <option *ngFor="let destination of destinations" [ngValue]="destination.id">
+                {{ destination.name }}
+              </option>
+            </select>
+          </div>
+
+          <!-- Star Rating -->
+
+          <div class="form-group">
+            <label> Star Rating </label>
+
+            <select name="starRating" [(ngModel)]="hotelData.starRating">
+              <option [ngValue]="1">★ 1 Star</option>
+
+              <option [ngValue]="2">★★ 2 Stars</option>
+
+              <option [ngValue]="3">★★★ 3 Stars</option>
+
+              <option [ngValue]="4">★★★★ 4 Stars</option>
+
+              <option [ngValue]="5">★★★★★ 5 Stars</option>
+            </select>
+          </div>
+
+          <!-- Price -->
+
+          <div class="form-group">
+            <label>
+              Price Per Night
+              <span>*</span>
+            </label>
+
+            <div class="price-input">
+              <span>₹</span>
+
+              <input
+                type="number"
+                name="pricePerNight"
+                [(ngModel)]="hotelData.pricePerNight"
+                min="1"
+                required
+              />
+            </div>
+          </div>
+
+          <!-- Availability -->
+
+          <div class="form-group">
+            <label> Availability </label>
+
+            <label class="switch-label">
+              <input type="checkbox" name="isAvailable" [(ngModel)]="hotelData.isAvailable" />
+
+              <span> Hotel is available </span>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- =========================
+           EXISTING IMAGES
+      ========================== -->
+
+      <div class="form-card">
+        <div class="card-header">
+          <h2>Existing Images</h2>
+
+          <p>Manage images already attached to this hotel.</p>
+        </div>
+
+        <div class="images-body">
+          <div *ngIf="existingImages.length > 0" class="image-grid">
+            <div class="image-item" *ngFor="let image of existingImages; let i = index">
+              <img [src]="getImageUrl(image.imageUrl)" [alt]="hotel.name" />
+
+              <button
+                type="button"
+                class="remove-existing"
+                (click)="deleteExistingImage(image.id, i)"
+              >
+                ×
+              </button>
+            </div>
+          </div>
+
+          <div *ngIf="existingImages.length === 0" class="no-images">No existing images.</div>
+        </div>
+      </div>
+
+      <!-- =========================
+           NEW IMAGES
+      ========================== -->
+
+      <div class="form-card">
+        <div class="card-header">
+          <h2>Add New Images</h2>
+
+          <p>Upload additional hotel images.</p>
+        </div>
+
+        <div class="images-body">
+          <div class="upload-box">
+            <input
+              type="file"
+              id="newHotelImages"
+              multiple
+              accept="image/*"
+              (change)="onImagesSelected($event)"
+            />
+
+            <label for="newHotelImages" class="upload-label">
+              <div class="upload-icon">📷</div>
+
+              <strong> Choose Images </strong>
+
+              <span> Select multiple images </span>
+            </label>
+          </div>
+
+          <!-- Preview -->
+
+          <div *ngIf="imagePreviews.length > 0" class="preview-section">
+            <h3>New Images</h3>
+
+            <div class="preview-grid">
+              <div class="preview-item" *ngFor="let image of imagePreviews; let i = index">
+                <img [src]="image" alt="Preview" />
+
+                <button type="button" class="remove-btn" (click)="removeSelectedImage(i)">×</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- =========================
+           ACTIONS
+      ========================== -->
+
+      <div class="form-actions">
+        <button type="button" class="cancel-btn" (click)="cancel()">Cancel</button>
+
+        <button type="submit" class="save-btn" [disabled]="isSubmitting">
+          <span *ngIf="!isSubmitting"> Update Hotel </span>
+
+          <span *ngIf="isSubmitting">
+            {{ isUploadingImages ? 'Uploading Images...' : 'Updating...' }}
+          </span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

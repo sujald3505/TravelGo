@@ -1,0 +1,195 @@
+<div class="admin-container">
+  <!-- Page Header -->
+  <div class="page-header">
+    <div class="header-content">
+      <h1>Package Management</h1>
+      <p>Manage all travel packages from here.</p>
+    </div>
+
+    <a routerLink="/admin/packages/add" class="add-btn">
+      <span>+</span>
+      Add Package
+    </a>
+  </div>
+
+  <!-- Search & Actions -->
+  <div class="toolbar">
+    <div class="search-box">
+      <span class="search-icon">⌕</span>
+
+      <input
+        type="text"
+        [(ngModel)]="searchText"
+        (input)="searchPackages()"
+        placeholder="Search packages..."
+      />
+
+      <button *ngIf="searchText" class="clear-btn" (click)="clearSearch()">×</button>
+    </div>
+
+    <button class="refresh-btn" (click)="refreshPackages()">↻ Refresh</button>
+  </div>
+
+  <!-- Loading -->
+  <div *ngIf="isLoading" class="loading-state">
+    <div class="spinner"></div>
+
+    <p>Loading packages...</p>
+  </div>
+
+  <!-- Error -->
+  <div *ngIf="!isLoading && errorMessage" class="error-state">
+    <div class="error-icon">!</div>
+
+    <h3>Something went wrong</h3>
+
+    <p>{{ errorMessage }}</p>
+
+    <button class="retry-btn" (click)="refreshPackages()">Try Again</button>
+  </div>
+
+  <!-- Empty -->
+  <div *ngIf="!isLoading && !errorMessage && filteredPackages.length === 0" class="empty-state">
+    <div class="empty-icon">📦</div>
+
+    <h3>No packages found</h3>
+
+    <p>There are no packages matching your search.</p>
+
+    <button *ngIf="searchText" class="clear-search-btn" (click)="clearSearch()">
+      Clear Search
+    </button>
+  </div>
+
+  <!-- Package Table -->
+  <div *ngIf="!isLoading && !errorMessage && filteredPackages.length > 0" class="table-wrapper">
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Package</th>
+          <th>Description</th>
+          <th>Price</th>
+          <th>Duration</th>
+          <th>Max People</th>
+          <th>Featured</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let pkg of filteredPackages; let i = index">
+          <!-- ID -->
+          <td class="id-cell">
+            {{ pkg.id }}
+          </td>
+
+          <!-- Package -->
+          <td>
+            <div class="package-info">
+              <div class="package-image">
+                <img
+                  [src]="
+                    pkg.packageImages?.length
+                      ? environmentImageUrl + pkg.packageImages[0].imageUrl
+                      : 'assets/images/package-placeholder.jpg'
+                  "
+                  [alt]="pkg.name"
+                  (error)="onImageError($event)"
+                />
+              </div>
+              <div>
+                <h4>
+                  {{ pkg.name }}
+                </h4>
+
+                <span> Package #{{ pkg.id }} </span>
+              </div>
+            </div>
+          </td>
+
+          <!-- Description -->
+          <td>
+            <div class="description">
+              {{ pkg.description }}
+            </div>
+          </td>
+
+          <!-- Price -->
+          <td>
+            <strong class="price"> ₹{{ pkg.price | number: '1.0-0' }} </strong>
+          </td>
+
+          <!-- Duration -->
+          <td>
+            <span class="duration"> {{ pkg.duration }} Days </span>
+          </td>
+
+          <!-- Max People -->
+          <td>
+            <span class="people">
+              {{ pkg.maxPeople }}
+            </span>
+          </td>
+
+          <!-- Featured -->
+          <td>
+            <span
+              class="status-badge"
+              [class.featured]="pkg.isFeatured"
+              [class.normal]="!pkg.isFeatured"
+            >
+              {{ pkg.isFeatured ? 'Featured' : 'Normal' }}
+            </span>
+          </td>
+
+          <!-- Actions -->
+          <td>
+            <div class="actions">
+              <!-- View -->
+              <button
+                type="button"
+                class="action-btn view-btn"
+                title="View Package"
+                [routerLink]="['/admin/packages/view', pkg.id]"
+              >
+                View
+              </button>
+
+              <!-- Edit -->
+              <button
+                type="button"
+                class="action-btn edit-btn"
+                title="Edit Package"
+                [routerLink]="['/admin/packages/edit', pkg.id]"
+              >
+                Edit
+              </button>
+
+              <!-- Delete -->
+              <button
+                type="button"
+                class="action-btn delete-btn"
+                title="Delete Package"
+                (click)="deletePackage(pkg.id)"
+              >
+                Delete
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Footer Count -->
+  <div *ngIf="!isLoading && !errorMessage && filteredPackages.length > 0" class="table-footer">
+    <span>
+      Showing
+      <strong>{{ filteredPackages.length }}</strong>
+      of
+      <strong>{{ packages.length }}</strong>
+      packages
+    </span>
+  </div>
+</div>

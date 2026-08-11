@@ -1,0 +1,101 @@
+  <section class="packages-hero">
+    <div class="container">
+      <h1>Explore Packages</h1>
+
+      <p>Choose the perfect package for your selected destination.</p>
+    </div>
+  </section>
+
+  <section class="package-filter">
+    <div class="container">
+      <input type="text" placeholder="Search Packages..." [(ngModel)]="searchText" />
+    </div>
+  </section>
+
+  <section class="package-list">
+    <div class="container">
+      @if (isLoading) {
+        <div class="loading">
+          <h2>Loading Packages...</h2>
+        </div>
+      } @else {
+        @if (filteredPackages().length > 0) {
+          <div class="package-grid">
+            @for (package of filteredPackages(); track package.id) {
+              <div class="package-card">
+                <!-- Image -->
+
+                <div class="package-image">
+
+  @if (package.packageImages && package.packageImages.length > 0) {
+
+    <img
+      [src]="getImageUrl(package.packageImages[0].imageUrl)"
+      [alt]="package.name"
+      (error)="onImageError($event)"
+    />
+
+  } @else {
+
+    <img
+      src="https://placehold.co/600x400/e9ecef/6c757d?text=Travel+Package"
+      [alt]="package.name"
+    />
+
+  }
+
+  @if (package.isFeatured) {
+    <span class="badge"> ⭐ Featured </span>
+  }
+
+</div>
+                <!-- Content -->
+
+                <div class="package-content">
+                  <h3>{{ package.name }}</h3>
+
+                  <p class="destination">📍 {{ package.destinationName }}</p>
+
+                  <p class="description">
+                    {{ package.description }}
+                  </p>
+
+                  <div class="package-info">
+                    <div>
+                      📅
+
+                      <span>{{ package.duration }} Days</span>
+                    </div>
+
+                    <div>
+                      👥
+
+                      <span>{{ package.maxPeople }} People</span>
+                    </div>
+                  </div>
+
+                  <div class="price">₹{{ package.price }}</div>
+
+                  <button class="details-btn" [routerLink]="['/packages/details', package.id]">
+                    View Details
+                  </button>
+                </div>
+              </div>
+            }
+          </div>
+        } @else {
+          <div class="empty">
+            <h2>No Packages Available</h2>
+
+            <p> No travel packages were found for this destination.</p>
+          </div>
+        }
+      }
+    </div>
+  </section>
+
+  <section class="result-section">
+    <div class="container">
+      <p class="result-count">{{ filteredPackages().length }} Packages Available</p>
+    </div>
+  </section>

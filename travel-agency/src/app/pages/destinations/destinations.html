@@ -1,0 +1,55 @@
+<section class="destination-hero" style="background-image: url('images/Homepage.jpg')">
+  <div class="hero-content">
+    <h1>Explore Amazing Destinations</h1>
+
+    <p>Discover breathtaking places around the world and create unforgettable memories.</p>
+  </div>
+</section>
+<section class="search-section">
+  <div class="search-box">
+    <input
+      type="text"
+      placeholder="Search destinations..."
+      [(ngModel)]="searchText"
+      (input)="searchDestination()"
+    />
+
+    <button>Search</button>
+  </div>
+</section>
+<section class="destination-grid">
+  @for (destination of filteredDestinations; track destination.id) {
+    <div class="destination-card">
+      
+<img
+  [src]="environment.imageUrl + destination.thumbnail"
+  alt="Destination"
+ >
+      <div class="card-content">
+        <span class="badge"> ⭐ {{ destination.rating }} </span>
+
+        <h3>
+          {{ destination.name }}
+        </h3>
+
+        <p>
+          📍 {{ destination.city }},
+          {{ destination.country }}
+        </p>
+
+       
+        <div class="card-footer">
+        
+          <button [routerLink]="['/packages/destination', destination.id]">Explore Packages</button>
+        </div>
+      </div>
+    </div>
+  }
+  @if (!isLoading && filteredDestinations.length === 0) {
+    <div class="no-result">
+      <h2>No destinations found 😔</h2>
+
+      <p>Try searching with another keyword.</p>
+    </div>
+  }
+</section>

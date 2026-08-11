@@ -1,0 +1,142 @@
+<div class="details-container">
+  <!-- Loading -->
+
+  <div *ngIf="isLoading" class="loading">
+    <div class="spinner"></div>
+
+    <p>Loading package details...</p>
+  </div>
+
+  <!-- Error -->
+
+  <div *ngIf="!isLoading && errorMessage" class="error-box">
+    <h3>Unable to load package</h3>
+
+    <p>{{ errorMessage }}</p>
+
+    <button type="button" (click)="goBack()">← Back to Packages</button>
+  </div>
+
+  <!-- Package Details -->
+
+  <div *ngIf="!isLoading && package" class="details-wrapper">
+    <!-- Header -->
+
+    <div class="page-header">
+      <div>
+        <button type="button" class="back-btn" (click)="goBack()">← Back</button>
+
+        <h1>{{ package.name }}</h1>
+
+        <p>Package Details</p>
+      </div>
+
+      <div class="header-actions">
+        <button type="button" class="edit-btn" (click)="editPackage()">✏️ Edit</button>
+
+        <button type="button" class="delete-btn" (click)="deletePackage()">🗑️ Delete</button>
+      </div>
+    </div>
+
+    <!-- Main Grid -->
+
+    <div class="details-grid">
+      <!-- Images -->
+
+      <div class="image-card">
+        <!-- Main Image -->
+
+        <div class="main-image">
+          <img
+            *ngIf="selectedImage"
+            [src]="imageBaseUrl + selectedImage"
+            [alt]="package.name"
+            (error)="onImageError($event)"
+          />
+
+          <div *ngIf="!selectedImage" class="no-image">No Image Available</div>
+        </div>
+
+        <!-- Thumbnails -->
+
+        <div *ngIf="packageImages.length > 0" class="thumbnail-grid">
+          <button
+            type="button"
+            class="thumbnail"
+            *ngFor="let image of packageImages"
+            [class.active]="selectedImage === image.imageUrl"
+            (click)="selectImage(image.imageUrl)"
+          >
+            <img
+              [src]="imageBaseUrl + image.imageUrl"
+              [alt]="package.name"
+              (error)="onImageError($event)"
+            />
+          </button>
+        </div>
+
+        <p *ngIf="isLoadingImages" class="image-loading">Loading images...</p>
+      </div>
+
+      <!-- Information -->
+
+      <div class="info-card">
+        <div class="info-header">
+          <div>
+            <span class="label"> Package </span>
+
+            <h2>
+              {{ package.name }}
+            </h2>
+          </div>
+
+          <span class="featured-badge" *ngIf="package.isFeatured"> ⭐ Featured </span>
+        </div>
+
+        <!-- Destination -->
+
+        <div class="info-row">
+          <span class="info-label"> Destination </span>
+
+          <span class="info-value"> 📍 {{ package.destinationName }} </span>
+        </div>
+
+        <!-- Price -->
+
+        <div class="info-row">
+          <span class="info-label"> Price </span>
+
+          <span class="price"> ₹{{ package.price | number }} </span>
+        </div>
+
+        <!-- Duration -->
+
+        <div class="info-row">
+          <span class="info-label"> Duration </span>
+
+          <span class="info-value"> {{ package.duration }} Days </span>
+        </div>
+
+        <!-- Max People -->
+
+        <div class="info-row">
+          <span class="info-label"> Maximum People </span>
+
+          <span class="info-value">
+            {{ package.maxPeople }}
+          </span>
+        </div>
+
+        <!-- Description -->
+
+        <div class="description">
+          <h3>Description</h3>
+
+          <p>
+            {{ package.description }}
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,56 @@
+# =========================================
+# Angular
+# =========================================
+
+travel-agency/node_modules/
+travel-agency/dist/
+travel-agency/.angular/
+travel-agency/.cache/
+
+# Angular environment local files
+travel-agency/src/environments/environment.local.ts
+
+
+# =========================================
+# .NET
+# =========================================
+
+TravelAgency.API/bin/
+TravelAgency.API/obj/
+
+# Visual Studio
+TravelAgency.API/.vs/
+
+# User specific files
+*.user
+*.suo
+
+
+# =========================================
+# Database / Local Development
+# =========================================
+
+*.mdf
+*.ldf
+
+
+# =========================================
+# Logs
+# =========================================
+
+*.log
+
+
+# =========================================
+# OS
+# =========================================
+
+.DS_Store
+Thumbs.db
+
+
+# =========================================
+# Secrets
+# =========================================
+
+appsettings.Development.json

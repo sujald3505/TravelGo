@@ -1,0 +1,251 @@
+<div class="booking-details-page">
+
+  <!-- Loading -->
+  @if (isLoading) {
+
+    <div class="loading-section">
+      <div class="loader"></div>
+      <p>Loading your booking...</p>
+    </div>
+
+  } @else {
+
+    <!-- Success Header -->
+    <section class="success-header">
+
+      <div class="success-icon">
+        ✓
+      </div>
+
+      <div class="success-content">
+
+        <span class="success-label">
+          BOOKING CONFIRMED
+        </span>
+
+        <h1>
+          Your Trip is Confirmed!
+        </h1>
+
+        <p>
+          Thank you for booking with TravelGo.
+          Your travel adventure is ready to begin.
+        </p>
+
+      </div>
+
+    </section>
+
+
+    <!-- Booking Card -->
+    <section class="booking-card">
+
+      <!-- Card Header -->
+      <div class="card-header">
+
+        <div>
+          <span class="card-label">
+            BOOKING DETAILS
+          </span>
+
+          <h2>
+            Your Reservation
+          </h2>
+        </div>
+
+        <div class="status">
+
+          <strong class="confirmed">
+            ✓ {{ booking.status }}
+          </strong>
+
+        </div>
+
+      </div>
+
+
+      <!-- Booking Information -->
+      <div class="booking-info">
+
+
+        <div class="row">
+
+          <div class="row-label">
+            <span class="icon">👤</span>
+
+            <div>
+              <small>Customer</small>
+              <strong>
+                {{ booking.userName }}
+              </strong>
+            </div>
+          </div>
+
+        </div>
+
+
+        <div class="row">
+
+          <div class="row-label">
+            <span class="icon">📍</span>
+
+            <div>
+              <small>Destination</small>
+              <strong>
+                {{ booking.destinationName }}
+              </strong>
+            </div>
+          </div>
+
+        </div>
+
+
+        <div class="row">
+
+          <div class="row-label">
+            <span class="icon">🎒</span>
+
+            <div>
+              <small>Package</small>
+              <strong>
+                {{ booking.packageName }}
+              </strong>
+            </div>
+          </div>
+
+        </div>
+
+
+        <div class="row">
+
+          <div class="row-label">
+            <span class="icon">🏨</span>
+
+            <div>
+              <small>Hotel</small>
+              <strong>
+                {{ booking.hotelName }}
+              </strong>
+            </div>
+          </div>
+
+        </div>
+
+
+        <div class="row">
+
+          <div class="row-label">
+            <span class="icon">📅</span>
+
+            <div>
+              <small>Booking Date</small>
+              <strong>
+                {{ booking.bookingDate | date:'dd MMM yyyy' }}
+              </strong>
+            </div>
+          </div>
+
+        </div>
+
+
+        <div class="row">
+
+          <div class="row-label">
+            <span class="icon">✈️</span>
+
+            <div>
+              <small>Travel Date</small>
+              <strong>
+                {{ booking.travelDate | date:'dd MMM yyyy' }}
+              </strong>
+            </div>
+          </div>
+
+        </div>
+
+
+        <div class="row">
+
+          <div class="row-label">
+            <span class="icon">👥</span>
+
+            <div>
+              <small>Travelers</small>
+              <strong>
+                {{ booking.numberOfPeople }} People
+              </strong>
+            </div>
+          </div>
+
+        </div>
+
+
+      </div>
+
+
+      <!-- Total -->
+      <div class="total-section">
+
+        <div>
+          <span>
+            Total Amount
+          </span>
+
+          <small>
+            Including all applicable charges
+          </small>
+        </div>
+
+        <strong>
+          ₹{{ booking.totalAmount }}
+        </strong>
+
+      </div>
+
+
+    </section>
+
+
+    <!-- Actions -->
+    <section class="actions">
+
+      <button
+        class="invoice-btn"
+        (click)="downloadInvoice()"
+      >
+
+        <span>📄</span>
+
+        Download Invoice
+
+      </button>
+
+
+      <button
+        class="bookings-btn"
+        routerLink="/my-bookings"
+      >
+
+        <span>📋</span>
+
+        My Bookings
+
+      </button>
+
+
+      <button
+        class="home-btn"
+        routerLink="/"
+      >
+
+        <span>🏠</span>
+
+        Back To Home
+
+      </button>
+
+    </section>
+
+  }
+
+</div>

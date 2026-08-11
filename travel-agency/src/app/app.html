@@ -1,0 +1,19 @@
+@if (!isAdminRoute) {
+
+  <!-- Public Website -->
+
+  <app-navbar></app-navbar>
+
+  <main>
+    <router-outlet></router-outlet>
+  </main>
+
+  <app-footer></app-footer>
+
+} @else {
+
+  <!-- Admin Website -->
+
+  <router-outlet></router-outlet>
+
+}

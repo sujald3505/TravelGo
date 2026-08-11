@@ -1,0 +1,210 @@
+<div class="bookings-container">
+  <div class="bookings-wrapper">
+    <!-- =========================
+         HEADER
+    ========================== -->
+
+    <div class="page-header">
+      <div>
+        <h1>Bookings</h1>
+
+        <p>Manage customer bookings and their status.</p>
+      </div>
+
+      <div class="booking-count">
+        <strong>
+          {{ filteredBookings.length }}
+        </strong>
+
+        <span> Bookings </span>
+      </div>
+    </div>
+
+    <!-- =========================
+         ALERTS
+    ========================== -->
+
+    <div *ngIf="successMessage" class="alert success">✓ {{ successMessage }}</div>
+
+    <div *ngIf="errorMessage" class="alert error">
+      {{ errorMessage }}
+    </div>
+
+    <!-- =========================
+         FILTERS
+    ========================== -->
+
+    <div class="filter-card">
+      <div class="search-box">
+        <span> 🔍 </span>
+
+        <input
+          type="text"
+          placeholder="Search booking, customer, destination..."
+          [(ngModel)]="searchText"
+          (input)="onSearch()"
+        />
+      </div>
+
+      <select [(ngModel)]="selectedStatus" (change)="onStatusFilter()">
+        <option value="All">All Status</option>
+
+        <option value="Pending">Pending</option>
+
+        <option value="Confirmed">Confirmed</option>
+
+        <option value="Completed">Completed</option>
+
+        <option value="Cancelled">Cancelled</option>
+      </select>
+    </div>
+
+    <!-- =========================
+         LOADING
+    ========================== -->
+
+    <div *ngIf="isLoading" class="loading">
+      <div class="spinner"></div>
+
+      <p>Loading bookings...</p>
+    </div>
+
+    <!-- =========================
+         EMPTY
+    ========================== -->
+
+    <div *ngIf="!isLoading && filteredBookings.length === 0" class="empty-state">
+      <div class="empty-icon">📋</div>
+
+      <h2>No bookings found</h2>
+
+      <p>There are no bookings matching your search.</p>
+    </div>
+
+    <!-- =========================
+         DESKTOP TABLE
+    ========================== -->
+
+    <div *ngIf="!isLoading && filteredBookings.length > 0" class="table-card">
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Booking</th>
+
+              <th>Customer</th>
+
+              <th>Destination</th>
+
+              <th>Package</th>
+
+              <th>Hotel</th>
+
+              <th>Travel Date</th>
+
+              <th>People</th>
+
+              <th>Amount</th>
+
+              <th>Status</th>
+
+              <th>Action</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr *ngFor="let booking of filteredBookings">
+              <!-- Booking -->
+
+              <td>
+                <strong class="booking-id"> #{{ booking.id }} </strong>
+
+                <small>
+                  {{ formatDate(booking.bookingDate) }}
+                </small>
+              </td>
+
+              <!-- Customer -->
+
+              <td>
+                <strong>
+                  {{ booking.userName || 'Unknown User' }}
+                </strong>
+              </td>
+
+              <!-- Destination -->
+
+              <td>
+                {{ booking.destinationName || '-' }}
+              </td>
+
+              <!-- Package -->
+
+              <td>
+                {{ booking.packageName || '-' }}
+              </td>
+
+              <!-- Hotel -->
+
+              <td>
+                {{ booking.hotelName || '-' }}
+              </td>
+
+              <!-- Travel Date -->
+
+              <td>
+                {{ formatDate(booking.travelDate) }}
+              </td>
+
+              <!-- People -->
+
+              <td>
+                <span class="people">
+                  👥
+                  {{ booking.numberOfPeople }}
+                </span>
+              </td>
+
+              <!-- Amount -->
+
+              <td>
+                <strong class="amount">
+                  {{ formatAmount(booking.totalAmount) }}
+                </strong>
+              </td>
+
+              <!-- STATUS -->
+
+              <td>
+                <select
+                  class="status-select"
+                  [class]="getStatusClass(booking.status)"
+                  [disabled]="updatingBookingId === booking.id"
+                  (change)="changeStatus(booking, $event)"
+                >
+                  <option
+                    *ngFor="let status of getStatusOptions(booking.status)"
+                    [value]="status"
+                    [selected]="normalizeStatus(booking.status) === status"
+                  >
+                    {{ status }}
+                  </option>
+                </select>
+
+                <span *ngIf="updatingBookingId === booking.id" class="updating"> Updating... </span>
+              </td>
+
+              <!-- ACTION -->
+
+              <td>
+                <button type="button" class="view-btn" (click)="viewBooking(booking.id)">
+                  View
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

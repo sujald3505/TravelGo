@@ -1,0 +1,27 @@
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace TravelAgency.API.DTOs.Package;
+
+public class UpdatePackageDto
+{
+    [Required]
+    [MaxLength(100)]
+    public string Name { get; set; } = string.Empty;
+
+    [MaxLength(2000)]
+    public string Description { get; set; } = string.Empty;
+
+    [Range(0, 999999)]
+    public decimal Price { get; set; }
+
+    [Range(1, 365)]
+    public int Duration { get; set; }
+
+    [Range(1, 100)]
+    public int MaxPeople { get; set; }
+
+    public bool IsFeatured { get; set; }
+
+    [Required]
+    public int DestinationId { get; set; }
+}

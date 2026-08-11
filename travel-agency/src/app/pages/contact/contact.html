@@ -1,0 +1,327 @@
+
+<section class="contact-hero">
+
+  <div class="hero-overlay"></div>
+
+  <div class="container hero-content">
+
+    <span class="breadcrumb">
+       Contact
+    </span>
+
+    <h1>Let's Plan Your Next Adventure</h1>
+
+    <p>
+      Have questions about destinations, hotels, or tour packages?
+      Our travel experts are ready to help you create unforgettable memories.
+    </p>
+
+  </div>
+
+</section>
+
+<!-- =========================
+Contact Cards
+========================= -->
+
+<section class="contact-info">
+
+  <div class="container">
+
+    <div class="section-title">
+
+      <span>CONTACT US</span>
+
+      <h2>We're Always Here To Help</h2>
+
+      <p>
+        Reach us anytime through phone, email or by visiting our office.
+      </p>
+
+    </div>
+
+    <div class="info-grid">
+
+      @for(item of contactInfo; track item.title){
+
+      <div class="info-card">
+
+        <div class="icon-box">
+          <i [class]="item.icon"></i>
+        </div>
+
+        <h3>{{ item.title }}</h3>
+
+        <p>{{ item.value }}</p>
+
+      </div>
+
+      }
+
+    </div>
+
+  </div>
+
+</section>
+
+<!-- =========================
+Contact Form
+========================= -->
+
+<section class="contact-form-section">
+
+  <div class="container">
+
+    <div class="form-wrapper">
+
+      <div class="form-content">
+
+        <span>GET IN TOUCH</span>
+
+        <h2>Send Us Your Travel Enquiry</h2>
+
+        <p>
+          Tell us where you want to travel and we'll recommend the
+          best destinations, hotels and packages based on your needs.
+        </p>
+
+        <div class="feature-list">
+
+          <div>
+            ✔ Best Price Guarantee
+          </div>
+
+          <div>
+            ✔ 24/7 Customer Support
+          </div>
+
+          <div>
+            ✔ Trusted Travel Experts
+          </div>
+
+          <div>
+            ✔ Instant Booking Assistance
+          </div>
+
+        </div>
+
+      </div>
+
+      <form (ngSubmit)="submitForm()">
+
+        <div class="two-column">
+
+          <input
+            type="text"
+            placeholder="Full Name"
+            [(ngModel)]="name"
+            name="name"
+            required>
+
+          <input
+            type="email"
+            placeholder="Email Address"
+            [(ngModel)]="email"
+            name="email"
+            required>
+
+        </div>
+
+        <div class="two-column">
+
+          <input
+            type="text"
+            placeholder="Phone Number"
+            [(ngModel)]="phone"
+            name="phone">
+
+          <input
+            type="text"
+            placeholder="Subject"
+            [(ngModel)]="subject"
+            name="subject">
+
+        </div>
+
+        <textarea
+          rows="6"
+          placeholder="Write your travel enquiry..."
+          [(ngModel)]="message"
+          name="message">
+        </textarea>
+
+        <button type="submit">
+
+          ✈ Send Message
+
+        </button>
+
+      </form>
+
+    </div>
+
+  </div>
+
+</section>
+
+<!-- =========================
+Why Choose Us
+========================= -->
+
+<section class="why-us">
+
+  <div class="container">
+
+    <div class="section-title">
+
+      <span>WHY CHOOSE US</span>
+
+      <h2>Your Trusted Travel Partner</h2>
+
+    </div>
+
+    <div class="why-grid">
+
+      <div class="why-card">
+
+        <i class="fa-solid fa-earth-asia"></i>
+
+        <h3>100+ Destinations</h3>
+
+        <p>
+          Explore amazing places around the world.
+        </p>
+
+      </div>
+
+      <div class="why-card">
+
+        <i class="fa-solid fa-tags"></i>
+
+        <h3>Best Price</h3>
+
+        <p>
+          Affordable travel packages with no hidden charges.
+        </p>
+
+      </div>
+
+      <div class="why-card">
+
+        <i class="fa-solid fa-headset"></i>
+
+        <h3>24/7 Support</h3>
+
+        <p>
+          Our travel experts are always ready to help.
+        </p>
+
+      </div>
+
+      <div class="why-card">
+
+        <i class="fa-solid fa-shield-halved"></i>
+
+        <h3>Safe Booking</h3>
+
+        <p>
+          Secure and trusted booking experience.
+        </p>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+<!-- =========================
+Map
+========================= -->
+
+<section class="map-section">
+
+  <div class="container">
+
+    <div class="section-title">
+
+      <span>OUR LOCATION</span>
+
+      <h2>Visit Our Office</h2>
+
+    </div>
+
+    <iframe
+      src="https://www.google.com/maps?q=Rajkot,Gujarat&output=embed"
+      loading="lazy">
+    </iframe>
+
+  </div>
+
+</section>
+
+<!-- =========================
+Working Hours
+========================= -->
+
+<section class="working-hours">
+
+  <div class="container">
+
+    <div class="section-title">
+
+      <span>WORKING HOURS</span>
+
+      <h2>We're Available</h2>
+
+    </div>
+
+    <div class="hours-card">
+
+      @for(item of workingHours; track item.day){
+
+      <div class="hour-row">
+
+        <span>{{ item.day }}</span>
+
+        <strong>{{ item.time }}</strong>
+
+      </div>
+
+      }
+
+    </div>
+
+  </div>
+
+</section>
+
+<!-- =========================
+Call To Action
+========================= -->
+
+<section class="contact-cta">
+
+  <div class="container">
+
+    <div class="cta-box">
+
+      <h2>Ready For Your Next Adventure?</h2>
+
+      <p>
+        Contact our travel experts today and start planning
+        your dream vacation.
+      </p>
+
+       <button routerLink="/destinations">
+
+        Start Your Journey
+
+      </button>
+
+    </div>
+
+  </div>
+
+</section>

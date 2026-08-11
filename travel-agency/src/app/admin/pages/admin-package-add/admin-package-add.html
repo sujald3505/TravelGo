@@ -1,0 +1,209 @@
+<div class="admin-container">
+  <!-- Header -->
+
+  <div class="page-header">
+    <div>
+      <h1>Add Package</h1>
+      <p>Create a new travel package.</p>
+    </div>
+
+    <button type="button" class="back-btn" (click)="cancel()">← Back to Packages</button>
+  </div>
+
+  <!-- Success -->
+
+  <div *ngIf="successMessage" class="alert success">✓ {{ successMessage }}</div>
+
+  <!-- Error -->
+
+  <div *ngIf="errorMessage" class="alert error">
+    {{ errorMessage }}
+  </div>
+
+  <!-- Form -->
+
+  <form class="package-form" (ngSubmit)="submitPackage()">
+    <!-- Package Information -->
+
+    <div class="form-card">
+      <div class="card-header">
+        <h2>Package Information</h2>
+
+        <p>Enter the basic details of the package.</p>
+      </div>
+
+      <div class="form-body">
+        <!-- Name -->
+
+        <div class="form-group full">
+          <label>
+            Package Name
+            <span>*</span>
+          </label>
+
+          <input
+            type="text"
+            name="name"
+            [(ngModel)]="packageData.name"
+            placeholder="e.g. Goa Honeymoon Package"
+            required
+          />
+        </div>
+
+        <!-- Description -->
+
+        <div class="form-group full">
+          <label>
+            Description
+            <span>*</span>
+          </label>
+
+          <textarea
+            name="description"
+            [(ngModel)]="packageData.description"
+            rows="5"
+            placeholder="Enter package description..."
+            required
+          >
+          </textarea>
+        </div>
+
+        <!-- Destination -->
+
+        <div class="form-group">
+          <label>
+            Destination
+            <span>*</span>
+          </label>
+
+          <select name="destinationId" [(ngModel)]="packageData.destinationId" required>
+            <option [ngValue]="0">Select Destination</option>
+
+            <option *ngFor="let destination of destinations" [ngValue]="destination.id">
+              {{ destination.name }}
+            </option>
+          </select>
+
+          <small *ngIf="isLoadingDestinations"> Loading destinations... </small>
+        </div>
+
+        <!-- Price -->
+
+        <div class="form-group">
+          <label>
+            Price
+            <span>*</span>
+          </label>
+
+          <div class="input-with-prefix">
+            <span>₹</span>
+
+            <input
+              type="number"
+              name="price"
+              [(ngModel)]="packageData.price"
+              min="1"
+              placeholder="45000"
+              required
+            />
+          </div>
+        </div>
+
+        <!-- Duration -->
+
+        <div class="form-group">
+          <label>
+            Duration (Days)
+            <span>*</span>
+          </label>
+
+          <input
+            type="number"
+            name="duration"
+            [(ngModel)]="packageData.duration"
+            min="1"
+            placeholder="5"
+            required
+          />
+        </div>
+
+        <!-- Max People -->
+
+        <div class="form-group">
+          <label>
+            Maximum People
+            <span>*</span>
+          </label>
+
+          <input
+            type="number"
+            name="maxPeople"
+            [(ngModel)]="packageData.maxPeople"
+            min="1"
+            placeholder="4"
+            required
+          />
+        </div>
+
+        <!-- Featured -->
+
+        <div class="form-group full">
+          <label class="checkbox-label">
+            <input type="checkbox" name="isFeatured" [(ngModel)]="packageData.isFeatured" />
+
+            <span> Mark this package as Featured </span>
+          </label>
+
+          <small> Featured packages can be highlighted on the website. </small>
+        </div>
+        <!-- Package Images -->
+
+        <div class="form-group full">
+          <label> Package Images </label>
+
+          <div class="upload-box">
+            <input
+              type="file"
+              id="packageImages"
+              multiple
+              accept="image/*"
+              (change)="onImagesSelected($event)"
+            />
+
+            <label for="packageImages" class="upload-label">
+              <div class="upload-icon">📷</div>
+
+              <strong> Choose Package Images </strong>
+
+              <span> Select multiple images </span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Image Preview -->
+
+        <div *ngIf="imagePreviews.length > 0" class="image-preview-section">
+          <h3>Selected Images</h3>
+
+          <div class="image-grid">
+            <div class="image-preview" *ngFor="let image of imagePreviews">
+              <img [src]="image" alt="Package preview" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Actions -->
+
+    <div class="form-actions">
+      <button type="button" class="cancel-btn" (click)="cancel()">Cancel</button>
+
+      <button type="submit" class="submit-btn" [disabled]="isSubmitting">
+        <span *ngIf="!isSubmitting"> Create Package </span>
+
+        <span *ngIf="isSubmitting"> Creating... </span>
+      </button>
+    </div>
+  </form>
+</div>

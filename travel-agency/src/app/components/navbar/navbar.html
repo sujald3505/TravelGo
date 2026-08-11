@@ -1,0 +1,91 @@
+
+<nav class="navbar">
+
+  <div class="logo">
+    <a routerLink="/">TravelGo</a>
+  </div>
+
+  <!-- Hamburger -->
+  <div class="menu-toggle" (click)="toggleMenu()">
+    ☰
+  </div>
+
+  <!-- Navigation -->
+
+  <ul
+    class="nav-links"
+    [class.active]="isMenuOpen">
+
+    <li><a routerLink="/" (click)="closeMenu()">Home</a></li>
+
+    <li><a routerLink="/about" (click)="closeMenu()">About</a></li>
+
+    <li><a routerLink="/destinations" (click)="closeMenu()">Destinations</a></li>
+
+    
+
+    <li><a routerLink="/contact" (click)="closeMenu()">Contact</a></li>
+
+  </ul>
+
+  <!-- Auth -->
+
+  <div
+    class="auth-buttons"
+    [class.active]="isMenuOpen">
+
+    @if (!isLoggedIn()) {
+
+<a
+  class="login-btn"
+  routerLink="/login"
+  (click)="closeMenu()">
+
+  Login
+
+</a>
+
+<a
+  class="register-btn"
+  routerLink="/register"
+  (click)="closeMenu()">
+
+  Register
+
+</a>
+
+} @else {
+
+<div class="user-menu">
+
+  <span class="welcome-text">
+
+     Hello, {{ firstName }}
+
+  </span>
+
+  <a
+    routerLink="/my-bookings"
+    class="my-bookings-btn"
+    (click)="closeMenu()">
+
+    My Bookings
+
+  </a>
+
+  <button
+    type="button"
+    class="logout-btn"
+    (click)="logout()">
+
+    Logout
+
+  </button>
+
+</div>
+
+}
+
+  </div>
+
+</nav>

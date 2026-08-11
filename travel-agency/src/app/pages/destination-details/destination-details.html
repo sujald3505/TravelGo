@@ -1,0 +1,205 @@
+@if (destination) {
+
+<section class="hero">
+
+    <img [src]="environment.imageUrl + destination.thumbnail"
+        class="hero-image">
+
+    <div class="hero-overlay">
+
+        <div class="hero-content">
+
+            <span class="badge">
+                ⭐ {{ destination.rating }}
+            </span>
+
+            <h1>{{ destination.name }}</h1>
+
+            <p>
+                📍 {{ destination.city }}, {{ destination.country }}
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+}
+
+@if (destination) {
+
+<section class="details-container">
+
+    <!-- Description Card -->
+
+    <div class="card">
+
+        <h2>About Destination</h2>
+
+        <p>
+            {{ destination.description }}
+        </p>
+
+    </div>
+
+    <!-- Tour Information -->
+
+    <div class="card">
+
+        <h2>Tour Information</h2>
+
+        <div class="info-grid">
+
+            <div class="info-box">
+
+                <span>📅 Duration</span>
+
+                <strong>{{ destination.duration }} Days</strong>
+
+            </div>
+
+            <div class="info-box">
+
+                <span>🏖 Category</span>
+
+                <strong>{{ destination.category }}</strong>
+
+            </div>
+
+            <div class="info-box">
+
+                <span>⭐ Rating</span>
+
+                <strong>{{ destination.rating }}</strong>
+
+            </div>
+
+            <div class="info-box">
+
+                <span>💰 Price</span>
+
+                <strong>₹ {{ destination.price }}</strong>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+}
+
+<!-- Highlights -->
+
+<div class="card">
+
+    <h2>Why Visit {{ destination.name }} ?</h2>
+
+    <div class="highlight-grid">
+
+        <div class="highlight-item">
+            🌴 Beautiful Nature
+        </div>
+
+        <div class="highlight-item">
+            🏨 Luxury Hotels
+        </div>
+
+        <div class="highlight-item">
+            🍴 Delicious Food
+        </div>
+
+        <div class="highlight-item">
+            🚖 Local Transport
+        </div>
+
+        <div class="highlight-item">
+            🧑‍💼 Professional Guide
+        </div>
+
+        <div class="highlight-item">
+            📸 Amazing Photography Spots
+        </div>
+
+    </div>
+
+</div>
+
+<!-- Book Now -->
+
+<div class="booking-card">
+
+    <h2>Ready For Your Trip?</h2>
+
+    <p>
+        Book your dream vacation today and explore unforgettable memories.
+    </p>
+
+    <button class="book-btn">
+        Book Now
+    </button>
+
+</div>
+<!-- Customer Reviews -->
+
+<div class="card">
+
+    <h2>What Our Travelers Say</h2>
+
+    <div class="review-grid">
+
+        <div class="review-card">
+
+            <h3>⭐⭐⭐⭐⭐</h3>
+
+            <p>
+                Amazing experience! The beaches were beautiful and the guide was very friendly.
+            </p>
+
+            <span>- Rahul Sharma</span>
+
+        </div>
+
+        <div class="review-card">
+
+            <h3>⭐⭐⭐⭐⭐</h3>
+
+            <p>
+                Everything was perfectly organized. Hotels and food were excellent.
+            </p>
+
+            <span>- Priya Patel</span>
+
+        </div>
+
+        <div class="review-card">
+
+            <h3>⭐⭐⭐⭐☆</h3>
+
+            <p>
+                Wonderful trip with family. Highly recommended for vacations.
+            </p>
+
+            <span>- Amit Verma</span>
+
+        </div>
+
+    </div>
+
+</div>
+@if(destination){
+
+<!-- Complete Page -->
+
+}
+@else{
+
+<div class="loading">
+
+    Loading Destination...
+
+</div>
+
+}

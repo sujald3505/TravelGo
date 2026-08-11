@@ -1,0 +1,382 @@
+<div class="details-container">
+
+  <div class="details-wrapper">
+
+
+    <!-- =========================
+         HEADER
+    ========================== -->
+
+    <div class="page-header">
+
+      <div>
+
+        <button
+          type="button"
+          class="back-btn"
+          (click)="goBack()">
+
+          ← Back to Bookings
+
+        </button>
+
+        <h1>
+          Booking #{{ bookingId }}
+        </h1>
+
+        <p>
+          Complete booking information and status management.
+        </p>
+
+      </div>
+
+
+      
+
+    </div>
+
+
+    <!-- =========================
+         ALERTS
+    ========================== -->
+
+    <div
+      *ngIf="successMessage"
+      class="alert success">
+
+      ✓ {{ successMessage }}
+
+    </div>
+
+
+    <div
+      *ngIf="errorMessage"
+      class="alert error">
+
+      {{ errorMessage }}
+
+    </div>
+
+
+    <!-- =========================
+         LOADING
+    ========================== -->
+
+    <div
+      *ngIf="isLoading"
+      class="loading">
+
+      <div class="spinner"></div>
+
+      <p>
+        Loading booking details...
+      </p>
+
+    </div>
+
+
+    <!-- =========================
+         CONTENT
+    ========================== -->
+
+    <div
+      *ngIf="
+        !isLoading &&
+        booking
+      "
+      class="content">
+
+
+      <!-- =========================
+           STATUS CARD
+      ========================== -->
+
+      <div class="status-card">
+
+        <div>
+
+          <span class="status-label">
+            Booking Status
+          </span>
+
+          <span
+            class="status-badge"
+            [class]="
+              getStatusClass(
+                booking.status
+              )
+            ">
+
+            {{ normalizeStatus(booking.status) }}
+
+          </span>
+
+        </div>
+
+
+        <div class="status-control">
+
+          <label>
+            Change Status
+          </label>
+
+          <select
+            [disabled]="isUpdatingStatus"
+            [value]="
+              normalizeStatus(
+                booking.status
+              )
+            "
+            (change)="
+              onStatusChange($event)
+            ">
+
+            <option
+              *ngFor="
+                let status of
+                getStatusOptions()
+              "
+              [value]="status">
+
+              {{ status }}
+
+            </option>
+
+          </select>
+
+          <small
+            *ngIf="isUpdatingStatus">
+
+            Updating status...
+
+          </small>
+
+        </div>
+
+      </div>
+
+
+      <!-- =========================
+           CUSTOMER
+      ========================== -->
+
+      <div class="card">
+
+        <div class="card-header">
+
+          <h2>
+            👤 Customer Information
+          </h2>
+
+        </div>
+
+
+        <div class="info-grid">
+
+          <div class="info-item">
+
+            <span>
+              Customer Name
+            </span>
+
+            <strong>
+              {{ booking.userName || '-' }}
+            </strong>
+
+          </div>
+
+
+          <div class="info-item">
+
+            <span>
+              User ID
+            </span>
+
+            <strong>
+              #{{ booking.userId || '-' }}
+            </strong>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- =========================
+           TRIP
+      ========================== -->
+
+      <div class="card">
+
+        <div class="card-header">
+
+          <h2>
+            ✈️ Trip Information
+          </h2>
+
+        </div>
+
+
+        <div class="trip-grid">
+
+
+          <div class="trip-item">
+
+            <span>
+              Destination
+            </span>
+
+            <strong>
+              {{ booking.destinationName || '-' }}
+            </strong>
+
+          </div>
+
+
+          <div class="trip-item">
+
+            <span>
+              Package
+            </span>
+
+            <strong>
+              {{ booking.packageName || '-' }}
+            </strong>
+
+          </div>
+
+
+          <div class="trip-item">
+
+            <span>
+              Hotel
+            </span>
+
+            <strong>
+              {{ booking.hotelName || '-' }}
+            </strong>
+
+          </div>
+
+
+          <div class="trip-item">
+
+            <span>
+              Number of People
+            </span>
+
+            <strong>
+              👥 {{ booking.numberOfPeople || 0 }}
+            </strong>
+
+          </div>
+
+
+        </div>
+
+      </div>
+
+
+      <!-- =========================
+           DATES
+      ========================== -->
+
+      <div class="card">
+
+        <div class="card-header">
+
+          <h2>
+            📅 Booking Schedule
+          </h2>
+
+        </div>
+
+
+        <div class="date-grid">
+
+
+          <div class="date-item">
+
+            <span>
+              Booking Date
+            </span>
+
+            <strong>
+              {{
+                formatDate(
+                  booking.bookingDate
+                )
+              }}
+            </strong>
+
+          </div>
+
+
+          <div class="date-item">
+
+            <span>
+              Travel Date
+            </span>
+
+            <strong>
+              {{
+                formatDate(
+                  booking.travelDate
+                )
+              }}
+            </strong>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- =========================
+           PAYMENT
+      ========================== -->
+
+      <div class="payment-card">
+
+        <div>
+
+          <span>
+            Total Booking Amount
+          </span>
+
+          <strong>
+            {{
+              formatAmount(
+                booking.totalAmount
+              )
+            }}
+          </strong>
+
+        </div>
+
+
+        <div class="payment-status">
+
+          <span>
+            Payment
+          </span>
+
+          <strong>
+            {{
+              booking.paymentStatus ||
+              'Paid'
+            }}
+          </strong>
+
+        </div>
+
+      </div>
+
+
+    </div>
+
+  </div>
+
+</div>

@@ -1,0 +1,411 @@
+<section class="edit-page">
+
+  @if (isLoading) {
+
+    <div class="loading-state">
+      <div class="spinner"></div>
+      <p>Loading destination...</p>
+    </div>
+
+  } @else {
+
+    <!-- HEADER -->
+
+    <div class="page-header">
+
+      <div class="header-left">
+
+        <button
+          type="button"
+          class="back-btn"
+          (click)="cancel()"
+        >
+          ←
+        </button>
+
+        <div>
+          <span class="eyebrow">
+            DESTINATIONS
+          </span>
+
+          <h1>
+            Edit Destination
+          </h1>
+
+          <p>
+            Update destination information and image.
+          </p>
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- FORM -->
+
+    <form
+      [formGroup]="destinationForm"
+      (ngSubmit)="submit()"
+      class="edit-form"
+    >
+
+      <!-- LEFT : IMAGE -->
+
+      <div class="image-card">
+
+        <div class="card-heading">
+          <span class="section-label">
+            DESTINATION IMAGE
+          </span>
+
+          <h2>
+            Thumbnail
+          </h2>
+
+          <p>
+            Upload a high-quality destination image.
+          </p>
+        </div>
+
+
+        <!-- IMAGE PREVIEW -->
+
+        <div class="image-preview">
+
+          @if (imagePreview) {
+
+            <img
+              [src]="imagePreview"
+              [alt]="destination.name"
+            />
+
+          } @else {
+
+            <div class="empty-image">
+              <span>🖼️</span>
+              <p>No image selected</p>
+            </div>
+
+          }
+
+        </div>
+
+
+        <!-- UPLOAD -->
+
+        <label
+          class="upload-btn"
+          for="destinationImage"
+        >
+          📷 Choose New Image
+        </label>
+
+        <input
+          id="destinationImage"
+          type="file"
+          accept="image/*"
+          (change)="onImageSelected($event)"
+          hidden
+        />
+
+
+        @if (selectedFile) {
+
+          <div class="selected-file">
+
+            <span>
+              {{ selectedFile.name }}
+            </span>
+
+            <button
+              type="button"
+              (click)="removeImage()"
+            >
+              ×
+            </button>
+
+          </div>
+
+        }
+
+        <small>
+          JPG, JPEG, PNG or WEBP • Maximum 5 MB
+        </small>
+
+      </div>
+
+
+      <!-- RIGHT : DETAILS -->
+
+      <div class="form-card">
+
+        <div class="card-heading">
+
+          <span class="section-label">
+            DESTINATION INFORMATION
+          </span>
+
+          <h2>
+            Basic Details
+          </h2>
+
+          <p>
+            Update the destination information below.
+          </p>
+
+        </div>
+
+
+        <div class="form-grid">
+
+
+          <!-- NAME -->
+
+          <div class="form-group full">
+
+            <label>
+              Destination Name
+            </label>
+
+            <input
+              type="text"
+              formControlName="name"
+              placeholder="Enter destination name"
+            />
+
+            @if (
+              destinationForm.get('name')?.touched &&
+              destinationForm.get('name')?.invalid
+            ) {
+
+              <span class="error">
+                Destination name is required.
+              </span>
+
+            }
+
+          </div>
+
+
+          <!-- COUNTRY -->
+
+          <div class="form-group">
+
+            <label>
+              Country
+            </label>
+
+            <input
+              type="text"
+              formControlName="country"
+              placeholder="Enter country"
+            />
+
+            @if (
+              destinationForm.get('country')?.touched &&
+              destinationForm.get('country')?.invalid
+            ) {
+
+              <span class="error">
+                Country is required.
+              </span>
+
+            }
+
+          </div>
+
+
+          <!-- CITY -->
+
+          <div class="form-group">
+
+            <label>
+              City
+            </label>
+
+            <input
+              type="text"
+              formControlName="city"
+              placeholder="Enter city"
+            />
+
+            @if (
+              destinationForm.get('city')?.touched &&
+              destinationForm.get('city')?.invalid
+            ) {
+
+              <span class="error">
+                City is required.
+              </span>
+
+            }
+
+          </div>
+
+
+          <!-- CATEGORY -->
+
+          <div class="form-group">
+
+            <label>
+              Category
+            </label>
+
+            <input
+              type="text"
+              formControlName="category"
+              placeholder="e.g. Beach, Mountain"
+            />
+
+            @if (
+              destinationForm.get('category')?.touched &&
+              destinationForm.get('category')?.invalid
+            ) {
+
+              <span class="error">
+                Category is required.
+              </span>
+
+            }
+
+          </div>
+
+
+          <!-- RATING -->
+
+          <div class="form-group">
+
+            <label>
+              Rating
+            </label>
+
+            <input
+              type="number"
+              min="0"
+              max="5"
+              step="0.1"
+              formControlName="rating"
+              placeholder="0 - 5"
+            />
+
+            @if (
+              destinationForm.get('rating')?.touched &&
+              destinationForm.get('rating')?.invalid
+            ) {
+
+              <span class="error">
+                Rating must be between 0 and 5.
+              </span>
+
+            }
+
+          </div>
+
+
+          <!-- DESCRIPTION -->
+
+          <div class="form-group full">
+
+            <label>
+              Description
+            </label>
+
+            <textarea
+              rows="6"
+              formControlName="description"
+              placeholder="Enter destination description"
+            ></textarea>
+
+            @if (
+              destinationForm.get('description')?.touched &&
+              destinationForm.get('description')?.invalid
+            ) {
+
+              <span class="error">
+                Description must be at least 10 characters.
+              </span>
+
+            }
+
+          </div>
+
+
+          <!-- POPULAR -->
+
+          <div class="popular-toggle full">
+
+            <div>
+
+              <strong>
+                Popular Destination
+              </strong>
+
+              <span>
+                Mark this destination as popular.
+              </span>
+
+            </div>
+
+            <label class="switch">
+
+              <input
+                type="checkbox"
+                formControlName="isPopular"
+              />
+
+              <span class="slider"></span>
+
+            </label>
+
+          </div>
+
+        </div>
+
+
+        <!-- ACTIONS -->
+
+        <div class="form-actions">
+
+          <button
+            type="button"
+            class="cancel-btn"
+            (click)="cancel()"
+            [disabled]="isSubmitting"
+          >
+            Cancel
+          </button>
+
+
+          <button
+            type="submit"
+            class="update-btn"
+            [disabled]="
+              isSubmitting ||
+              isUploadingImage
+            "
+          >
+
+            @if (isSubmitting) {
+
+              <span class="button-spinner"></span>
+
+              Updating...
+
+            } @else {
+
+              ✓ Update Destination
+
+            }
+
+          </button>
+
+        </div>
+
+      </div>
+
+    </form>
+
+  }
+
+</section>

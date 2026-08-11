@@ -1,0 +1,161 @@
+<div class="admin-container">
+  <!-- Header -->
+
+  <div class="page-header">
+    <div>
+      <h1>Hotels</h1>
+
+      <p>Manage all hotels from here.</p>
+    </div>
+
+    <a routerLink="/admin/hotels/add" class="add-btn"> + Add Hotel </a>
+  </div>
+
+  <!-- Error -->
+
+  <div *ngIf="errorMessage" class="alert error">
+    {{ errorMessage }}
+  </div>
+
+  <!-- Search -->
+
+  <div class="toolbar">
+    <div class="search-box">
+      <span>🔍</span>
+
+      <input
+        type="text"
+        [(ngModel)]="searchText"
+        (input)="searchHotels()"
+        placeholder="Search hotel, destination or address..."
+      />
+    </div>
+  </div>
+
+  <!-- Loading -->
+
+  <div *ngIf="isLoading" class="loading">
+    <div class="spinner"></div>
+
+    <p>Loading hotels...</p>
+  </div>
+
+  <!-- Empty -->
+
+  <div *ngIf="!isLoading && filteredHotels.length === 0" class="empty">
+    <div class="empty-icon">🏨</div>
+
+    <h3>No Hotels Found</h3>
+
+    <p>There are no hotels available.</p>
+
+    <a routerLink="/admin/hotels/add" class="add-btn"> + Add Hotel </a>
+  </div>
+
+  <!-- Hotel Table -->
+
+  <div *ngIf="!isLoading && filteredHotels.length > 0" class="table-card">
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>Hotel</th>
+
+            <th>Destination</th>
+
+            <th>Rating</th>
+
+            <th>Price / Night</th>
+
+            <th>Status</th>
+
+            <th>Actions</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr *ngFor="let hotel of filteredHotels">
+            <!-- Hotel -->
+
+            <td>
+              <div class="hotel-info">
+                <div class="hotel-image">
+                  <img
+                    *ngIf="hotel.hotelImages?.length"
+                    [src]="imageBaseUrl + hotel.hotelImages[0].imageUrl"
+                    [alt]="hotel.name"
+                    (error)="onImageError($event)"
+                  />
+
+                  <img
+                    *ngIf="!hotel.hotelImages?.length"
+                    src="assets/images/hotel-placeholder.jpg"
+                    [alt]="hotel.name"
+                  />
+                </div>
+
+                <div>
+                  <strong>
+                    {{ hotel.name }}
+                  </strong>
+
+                  <small>
+                    {{ hotel.address }}
+                  </small>
+                </div>
+              </div>
+            </td>
+
+            <!-- Destination -->
+
+            <td>
+              <span class="destination"> 📍 {{ hotel.destinationName }} </span>
+            </td>
+
+            <!-- Rating -->
+
+            <td>
+              <div class="rating">
+                <span class="star"> ★ </span>
+
+                {{ hotel.starRating }}
+              </div>
+            </td>
+
+            <!-- Price -->
+
+            <td>
+              <strong class="price"> ₹{{ hotel.pricePerNight | number }} </strong>
+            </td>
+
+            <!-- Status -->
+
+            <td>
+              <span
+                class="status"
+                [class.available]="hotel.isAvailable"
+                [class.unavailable]="!hotel.isAvailable"
+              >
+                {{ hotel.isAvailable ? 'Available' : 'Unavailable' }}
+              </span>
+            </td>
+
+            <!-- Actions -->
+
+            <td>
+              <div class="actions">
+                <a class="view-btn" [routerLink]="['/admin/hotels/view', hotel.id]"> View </a>
+
+                <a class="edit-btn" [routerLink]="['/admin/hotels/edit', hotel.id]"> Edit </a>
+
+                <button type="button" class="delete-btn" (click)="deleteHotel(hotel)">
+                  Delete
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

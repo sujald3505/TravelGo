@@ -1,0 +1,79 @@
+<section class="hotels-section">
+  <div class="hotels-container">
+    <!-- Page Header -->
+    <div class="page-header">
+      <h1>Hotels</h1>
+
+      <p>Find the perfect stay for your travel journey.</p>
+    </div>
+
+    <!-- Loading -->
+    @if (isLoading) {
+      <div class="loading-section">
+        <div class="spinner"></div>
+
+        <p>Loading hotels...</p>
+      </div>
+
+    } @else {
+      @if (hotels.length > 0) {
+        <!-- Hotels Grid -->
+        <div class="hotels-grid">
+          @for (hotel of hotels; track hotel.id) {
+            <div class="hotel-card">
+              <!-- Image -->
+              <div class="hotel-image">
+                <img
+                  [src]="getHotelImage(hotel)"
+                  [alt]="hotel.name"
+                  (error)="onImageError($event)"
+                />
+              </div>
+
+              <!-- Content -->
+              <div class="hotel-content">
+                <h2>
+                  {{ hotel.name }}
+                </h2>
+
+                <p class="location">📍 {{ hotel.destinationName }}</p>
+
+                <p class="description">
+                  {{ hotel.description }}
+                </p>
+
+                <div class="rating">⭐ {{ hotel.starRating }} Star</div>
+
+                <div class="price">₹{{ hotel.pricePerNight }} / Night</div>
+
+                <div class="hotel-bottom">
+                  <div class="available" [class.not-available]="!hotel.isAvailable">
+                    {{ hotel.isAvailable ? 'Available' : 'Not Available' }}
+                  </div>
+
+                  <a
+                    [routerLink]="['/hotels', hotel.id, 'package', packageId]"
+                    [queryParams]="{
+                      packageId: packageId,
+                    }"
+                    class="details-btn"
+                  >
+                    View Details
+                  </a>
+                </div>
+              </div>
+            </div>
+          }
+        </div>
+
+      } @else {
+        <!-- Empty -->
+        <div class="empty">
+          <h2>No Hotels Available</h2>
+
+          <p>No hotels were found for this destination.</p>
+        </div>
+      }
+    }
+  </div>
+</section>

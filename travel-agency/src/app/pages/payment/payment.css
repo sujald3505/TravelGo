@@ -1,0 +1,180 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.payment-container {
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 20px;
+
+  display: grid;
+  grid-template-columns: 1fr 420px;
+  gap: 30px;
+
+  align-items: start;
+}
+
+.summary-card,
+.payment-card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 28px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, .08);
+}
+
+.summary-card h2,
+.payment-card h2 {
+  font-size: 24px;
+  margin-bottom: 25px;
+  color: #222;
+}
+
+.item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  margin-bottom: 18px;
+}
+
+.item span {
+  color: #666;
+  font-size: 15px;
+}
+
+.item strong {
+  color: #222;
+  font-size: 16px;
+  text-align: right;
+}
+
+.summary-card hr {
+  border: none;
+  border-top: 1px solid #eee;
+  margin: 20px 0;
+}
+
+.total {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.total span {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.total strong {
+  color: #0b8f43;
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.payment-card label {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  padding: 15px;
+  margin-bottom: 15px;
+
+  border: 1px solid #ddd;
+  border-radius: 10px;
+
+  cursor: pointer;
+
+  transition: .3s;
+}
+
+.payment-card label:hover {
+  border-color: #0d6efd;
+  background: #f8fbff;
+}
+
+.payment-card input[type="radio"] {
+  width: 18px;
+  height: 18px;
+}
+
+.pay-btn {
+  width: 100%;
+  margin-top: 25px;
+
+  border: none;
+  border-radius: 10px;
+
+  padding: 16px;
+
+  background: #0d6efd;
+  color: white;
+
+  font-size: 17px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition: .3s;
+}
+
+.pay-btn:hover:not(:disabled) {
+  background: #0b5ed7;
+}
+
+.pay-btn:disabled {
+  background: #999;
+  cursor: not-allowed;
+}
+
+@media (max-width: 992px) {
+
+  .payment-container {
+    grid-template-columns: 1fr;
+  }
+
+}
+
+@media (max-width: 576px) {
+
+  .payment-container {
+    margin: 20px auto;
+    padding: 15px;
+  }
+
+  .summary-card,
+  .payment-card {
+    padding: 20px;
+  }
+
+  .summary-card h2,
+  .payment-card h2 {
+    font-size: 20px;
+  }
+
+  .item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+  }
+
+  .item strong {
+    text-align: left;
+  }
+
+  .total {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .total strong {
+    font-size: 24px;
+  }
+
+  .pay-btn {
+    font-size: 16px;
+  }
+
+}

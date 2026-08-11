@@ -1,0 +1,367 @@
+<section class="admin-destinations">
+  <!-- =========================================
+       Page Header
+  ========================================== -->
+
+  <div class="page-header">
+    <div class="header-content">
+      <div class="title-area">
+        <span class="page-icon">🌍</span>
+
+        <div>
+          <h1>Destinations</h1>
+
+          <p>Manage all travel destinations available on TravelGo.</p>
+        </div>
+      </div>
+
+      <button class="add-btn" routerLink="/admin/destinations/add">
+        <span>+</span>
+        Add Destination
+      </button>
+    </div>
+  </div>
+
+  <!-- =========================================
+       Search / Toolbar
+  ========================================== -->
+
+  <div class="toolbar">
+    <div class="search-box">
+      <span class="search-icon">🔍</span>
+
+      <input
+        type="text"
+        [(ngModel)]="searchText"
+        (input)="searchDestination()"
+        placeholder="Search by name, city, country or category..."
+      />
+
+      @if (searchText) {
+        <button type="button" class="clear-btn" (click)="clearSearch()">×</button>
+      }
+    </div>
+
+    <button type="button" class="refresh-btn" (click)="refreshDestinations()">
+      <span>↻</span>
+      Refresh
+    </button>
+  </div>
+
+  <!-- =========================================
+       Loading
+  ========================================== -->
+
+  @if (isLoading) {
+    <div class="loading-card">
+      <div class="spinner"></div>
+
+      <h3>Loading destinations...</h3>
+
+      <p>Please wait while we fetch destination data.</p>
+    </div>
+  }
+
+  <!-- =========================================
+       Error
+  ========================================== -->
+
+  @else if (errorMessage) {
+    <div class="error-card">
+      <div class="error-icon">⚠️</div>
+
+      <h3>Unable to load destinations</h3>
+
+      <p>
+        {{ errorMessage }}
+      </p>
+
+      <button type="button" class="retry-btn" (click)="refreshDestinations()">Try Again</button>
+    </div>
+  }
+
+  <!-- =========================================
+       Destination Data
+  ========================================== -->
+
+  @else {
+    <!-- Result Information -->
+
+    <div class="result-info">
+      <div>
+        <strong>
+          {{ filteredDestinations.length }}
+        </strong>
+
+        destination
+        @if (filteredDestinations.length !== 1) {
+          s
+        }
+        found
+      </div>
+
+      @if (searchText) {
+        <span>
+          Search results for
+          <strong>"{{ searchText }}"</strong>
+        </span>
+      }
+    </div>
+
+    <!-- =======================================
+         Desktop Table
+    ======================================== -->
+
+    @if (filteredDestinations.length > 0) {
+      <div class="table-card">
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>Destination</th>
+
+                <th>Location</th>
+
+                <th>Category</th>
+
+                <th>Rating</th>
+
+                <th>Popular</th>
+
+                <th>Actions</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              @for (destination of filteredDestinations; track destination.id) {
+                <tr>
+                  <!-- Destination -->
+
+                  <td>
+                    <div class="destination-cell">
+                      <div class="destination-image">
+                        @if (destination.thumbnail) {
+                          <img
+                            [src]="environment.imageUrl + destination.thumbnail"
+                            [alt]="destination.name"
+                            (error)="
+                              $any($event.target).src =
+                                'https://placehold.co/100x75/e2e8f0/64748b?text=No+Image'
+                            "
+                          />
+                        } @else {
+                          <img
+                            src="https://placehold.co/100x75/e2e8f0/64748b?text=No+Image"
+                            [alt]="destination.name"
+                          />
+                        }
+                      </div>
+
+                      <div class="destination-name">
+                        <strong>
+                          {{ destination.name }}
+                        </strong>
+
+                        <span> ID #{{ destination.id }} </span>
+                      </div>
+                    </div>
+                  </td>
+
+                  <!-- Location -->
+
+                  <td>
+                    <div class="location-cell">
+                      <strong>
+                        {{ destination.city }}
+                      </strong>
+
+                      <span>
+                        {{ destination.country }}
+                      </span>
+                    </div>
+                  </td>
+
+                  <!-- Category -->
+
+                  <td>
+                    <span class="category-badge">
+                      {{ destination.category }}
+                    </span>
+                  </td>
+
+                  <!-- Rating -->
+
+                  <td>
+                    <div class="rating">
+                      <span>⭐</span>
+
+                      <strong>
+                        {{ destination.rating }}
+                      </strong>
+                    </div>
+                  </td>
+
+                  <!-- Popular -->
+
+                  <td>
+                    @if (destination.isPopular) {
+                      <span class="popular-badge"> ✓ Popular </span>
+                    } @else {
+                      <span class="regular-badge"> Regular </span>
+                    }
+                  </td>
+
+                  <!-- Actions -->
+
+                  <td>
+                    <div class="actions">
+                      <!-- View -->
+                      <button
+                        type="button"
+                        class="action-btn view-btn"
+                        [routerLink]="['/admin/destinations/view', destination.id]"
+                      >
+                        View
+                      </button>
+
+                      <!-- Edit -->
+                      <button
+                        type="button"
+                        class="action-btn edit-btn"
+                        [routerLink]="['/admin/destinations/edit', destination.id]"
+                      >
+                        Edit
+                      </button>
+
+                      <!-- Delete -->
+                      <button
+                        type="button"
+                        class="action-btn delete-btn"
+                        (click)="deleteDestination(destination)"
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- =====================================
+           Mobile Cards
+      ====================================== -->
+
+      <div class="mobile-destinations">
+        @for (destination of filteredDestinations; track destination.id) {
+          <div class="destination-card">
+            <!-- Image -->
+
+            <div class="card-image">
+              @if (destination.thumbnail) {
+                <img
+                  [src]="environment.imageUrl + destination.thumbnail"
+                  [alt]="destination.name"
+                  (error)="
+                    $any($event.target).src =
+                      'https://placehold.co/600x400/e2e8f0/64748b?text=No+Image'
+                  "
+                />
+              } @else {
+                <img
+                  src="https://placehold.co/600x400/e2e8f0/64748b?text=No+Image"
+                  [alt]="destination.name"
+                />
+              }
+
+              @if (destination.isPopular) {
+                <span class="mobile-popular"> ⭐ Popular </span>
+              }
+            </div>
+
+            <!-- Card Content -->
+
+            <div class="card-content">
+              <div class="card-title-row">
+                <div>
+                  <h3>
+                    {{ destination.name }}
+                  </h3>
+
+                  <p>
+                    📍 {{ destination.city }},
+                    {{ destination.country }}
+                  </p>
+                </div>
+
+                <span class="category-badge">
+                  {{ destination.category }}
+                </span>
+              </div>
+
+              <p class="mobile-description">
+                {{ destination.description }}
+              </p>
+
+              <div class="mobile-info">
+                <div>
+                  <span>Rating</span>
+                  <strong> ⭐ {{ destination.rating }} </strong>
+                </div>
+              </div>
+
+              <div class="mobile-actions">
+                <a
+                  [routerLink]="['/admin/destinations/view', destination.id]"
+                  class="mobile-view-btn"
+                >
+                  View
+                </a>
+
+                <a
+                  [routerLink]="['/admin/destinations/edit', destination.id]"
+                  class="mobile-edit-btn"
+                >
+                  Edit
+                </a>
+
+                <button type="button" class="delete-btn" (click)="deleteDestination(destination)">
+                  🗑 Delete
+                </button>
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+    }
+
+    <!-- =======================================
+         No Results
+    ======================================== -->
+
+    @else {
+      <div class="empty-card">
+        <div class="empty-icon">🌍</div>
+
+        <h3>No Destinations Found</h3>
+
+        @if (searchText) {
+          <p>
+            No destinations match "<strong>{{ searchText }}</strong
+            >".
+          </p>
+
+          <button type="button" class="clear-search-btn" (click)="clearSearch()">
+            Clear Search
+          </button>
+        } @else {
+          <p>No destinations are available yet.</p>
+
+          <a routerLink="/admin/destinations/add" class="empty-add-btn"> + Add Destination </a>
+        }
+      </div>
+    }
+  }
+</section>

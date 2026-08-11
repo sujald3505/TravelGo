@@ -1,0 +1,313 @@
+<!-- =========================================
+     Dashboard Header
+========================================= -->
+
+<div class="dashboard-header">
+  <div>
+    <h1>Dashboard</h1>
+
+    <p>Welcome back, Administrator. Here's what's happening with your TravelGo platform.</p>
+  </div>
+
+  <div class="header-date">
+    <span>📅</span>
+    <span>TravelGo Admin</span>
+  </div>
+</div>
+
+<!-- =========================================
+     Loading
+========================================= -->
+
+@if (isLoading) {
+  <div class="dashboard-loading">
+    <div class="loading-spinner"></div>
+
+    <p>Loading dashboard...</p>
+  </div>
+}
+
+<!-- =========================================
+     Error
+========================================= -->
+
+@if (!isLoading && errorMessage) {
+  <div class="dashboard-error">
+    <strong> Unable to load dashboard </strong>
+
+    <p>
+      {{ errorMessage }}
+    </p>
+
+    <button type="button" (click)="loadDashboard()">Retry</button>
+  </div>
+}
+
+<!-- =========================================
+     Dashboard Content
+========================================= -->
+
+@if (!isLoading && !errorMessage) {
+  <!-- =======================================
+       Statistics
+  ======================================== -->
+
+  <div class="stats-grid">
+    @for (stat of stats; track stat.title) {
+      <a class="stat-card" [routerLink]="stat.route">
+        <div class="stat-top">
+          <div class="stat-icon">
+            {{ stat.icon }}
+          </div>
+        </div>
+
+        <div class="stat-content">
+          <span class="stat-title">
+            {{ stat.title }}
+          </span>
+
+          <h2>
+            {{ stat.value }}
+          </h2>
+        </div>
+
+        <div class="stat-footer">
+          <span> View details </span>
+
+          <span class="arrow"> → </span>
+        </div>
+      </a>
+    }
+  </div>
+
+  <!-- =======================================
+       Recent Bookings
+  ======================================== -->
+
+  <div class="section-header">
+    <div>
+      <h2>Recent Bookings</h2>
+
+      <p>Latest bookings from TravelGo customers</p>
+    </div>
+
+    <a routerLink="/admin/bookings" class="view-all"> View All → </a>
+  </div>
+
+  <!-- =======================================
+       Desktop Booking Table
+  ======================================== -->
+
+  @if (recentBookings.length > 0) {
+    <div class="booking-table-wrapper">
+      <table class="booking-table">
+        <thead>
+          <tr>
+            <th>Booking ID</th>
+
+            <th>Customer</th>
+
+            <th>Destination</th>
+
+            <th>Package</th>
+
+            <th>Hotel</th>
+
+            <th>Amount</th>
+
+            <th>Status</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          @for (booking of recentBookings; track booking.id) {
+            <tr>
+              <td>
+                <strong> #{{ booking.id }} </strong>
+              </td>
+
+              <td>
+                <div class="customer">
+                  <div class="customer-avatar">
+                    {{ getCustomerInitial(booking.userName) }}
+                  </div>
+
+                  <span>
+                    {{ booking.userName }}
+                  </span>
+                </div>
+              </td>
+
+              <td>
+                {{ booking.destinationName }}
+              </td>
+
+              <td>
+                {{ booking.packageName }}
+              </td>
+
+              <td>
+                {{ booking.hotelName }}
+              </td>
+
+              <td>
+                <strong>
+                  {{ formatCurrency(booking.totalAmount) }}
+                </strong>
+              </td>
+
+              <td>
+                <span class="status" [ngClass]="getStatusClass(booking.status)">
+                  {{ booking.status }}
+                </span>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+
+    <!-- =====================================
+         Mobile Booking Cards
+    ====================================== -->
+
+    <div class="mobile-bookings">
+      @for (booking of recentBookings; track booking.id) {
+        <div class="booking-card">
+          <div class="booking-card-header">
+            <div class="customer">
+              <div class="customer-avatar">
+                {{ getCustomerInitial(booking.userName) }}
+              </div>
+
+              <div>
+                <strong>
+                  {{ booking.userName }}
+                </strong>
+
+                <span> #{{ booking.id }} </span>
+              </div>
+            </div>
+
+            <span class="status" [ngClass]="getStatusClass(booking.status)">
+              {{ booking.status }}
+            </span>
+          </div>
+
+          <div class="booking-details">
+            <div>
+              <span> Destination </span>
+
+              <strong>
+                {{ booking.destinationName }}
+              </strong>
+            </div>
+
+            <div>
+              <span> Package </span>
+
+              <strong>
+                {{ booking.packageName }}
+              </strong>
+            </div>
+
+            <div>
+              <span> Hotel </span>
+
+              <strong>
+                {{ booking.hotelName }}
+              </strong>
+            </div>
+
+            <div>
+              <span> Amount </span>
+
+              <strong>
+                {{ formatCurrency(booking.totalAmount) }}
+              </strong>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+
+  } @else {
+    <div class="empty-bookings">
+      <div>📋</div>
+
+      <h3>No bookings yet</h3>
+
+      <p>Recent customer bookings will appear here.</p>
+    </div>
+  }
+
+  <!-- =======================================
+       Quick Actions
+  ======================================== -->
+
+  <div class="section-header">
+    <div>
+      <h2>Quick Actions</h2>
+
+      <p>Manage your TravelGo content quickly</p>
+    </div>
+  </div>
+
+  <div class="quick-grid">
+    <!-- Destinations -->
+
+    <a routerLink="/admin/destinations" class="quick-card">
+      <span> 🌍 </span>
+
+      <div>
+        <strong> Destinations </strong>
+
+        <small> Manage destinations </small>
+      </div>
+
+      <b> → </b>
+    </a>
+
+    <!-- Packages -->
+
+    <a routerLink="/admin/packages" class="quick-card">
+      <span> 🎒 </span>
+
+      <div>
+        <strong> Packages </strong>
+
+        <small> Manage travel packages </small>
+      </div>
+
+      <b> → </b>
+    </a>
+
+    <!-- Hotels -->
+
+    <a routerLink="/admin/hotels" class="quick-card">
+      <span> 🏨 </span>
+
+      <div>
+        <strong> Hotels </strong>
+
+        <small> Manage hotels </small>
+      </div>
+
+      <b> → </b>
+    </a>
+
+    <!-- Bookings -->
+
+    <a routerLink="/admin/bookings" class="quick-card">
+      <span> 📋 </span>
+
+      <div>
+        <strong> Bookings </strong>
+
+        <small> View customer bookings </small>
+      </div>
+
+      <b> → </b>
+    </a>
+  </div>
+}

@@ -1,0 +1,171 @@
+<div class="admin-page">
+  <!-- ==============================
+       HEADER
+  =============================== -->
+
+  <div class="page-header">
+    <div>
+      <h1>Inquiries</h1>
+      <p>Manage customer inquiries and contact requests.</p>
+    </div>
+
+    <button type="button" class="refresh-btn" (click)="refreshInquiries()">↻ Refresh</button>
+  </div>
+
+  <!-- ==============================
+       SEARCH
+  =============================== -->
+
+  <div class="toolbar">
+    <div class="search-box">
+      <input
+        type="text"
+        [(ngModel)]="searchText"
+        (input)="searchInquiries()"
+        placeholder="Search by name, email, phone or subject..."
+      />
+
+      <button *ngIf="searchText" type="button" class="clear-btn" (click)="clearSearch()">✕</button>
+    </div>
+  </div>
+
+  <!-- ==============================
+       LOADING
+  =============================== -->
+
+  <div class="loading" *ngIf="isLoading">Loading inquiries...</div>
+
+  <!-- ==============================
+       ERROR
+  =============================== -->
+
+  <div class="error-message" *ngIf="!isLoading && errorMessage">
+    {{ errorMessage }}
+  </div>
+
+  <!-- ==============================
+       TABLE
+  =============================== -->
+
+  <div class="table-container" *ngIf="!isLoading && !errorMessage">
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+
+          <th>Name</th>
+
+          <th>Email</th>
+
+          <th>Phone</th>
+
+          <th>Subject</th>
+
+          <th>Message</th>
+
+          <th>Date</th>
+
+          <th>Action</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let inquiry of filteredInquiries; let i = index">
+          <!-- Number -->
+
+          <td>
+            {{ i + 1 }}
+          </td>
+
+          <!-- Name -->
+
+          <td>
+            <strong>
+              {{ inquiry.fullName }}
+            </strong>
+          </td>
+
+          <!-- Email -->
+
+          <td>
+            <span class="email">
+              {{ inquiry.email }}
+            </span>
+          </td>
+
+          <!-- Phone -->
+
+          <td>
+            {{ inquiry.phone || 'N/A' }}
+          </td>
+
+          <!-- Subject -->
+
+          <td>
+            <span class="subject">
+              {{ inquiry.subject || 'No Subject' }}
+            </span>
+          </td>
+
+          <!-- Message -->
+
+          <td>
+            <div class="message-preview">
+              {{ inquiry.message }}
+            </div>
+          </td>
+
+          <!-- Date -->
+
+          <td>
+            {{ inquiry.createdAt ? (inquiry.createdAt | date: 'dd MMM yyyy') : 'N/A' }}
+          </td>
+
+          <!-- Actions -->
+
+          <td>
+            <div class="actions">
+              <!-- View -->
+
+              <button
+                type="button"
+                class="action-btn view"
+                title="View Inquiry"
+                [routerLink]="['/admin/inquiries/view', inquiry.id]"
+              >
+                View
+              </button>
+
+              <!-- Delete -->
+
+              <button
+                type="button"
+                class="action-btn delete"
+                title="Delete Inquiry"
+                (click)="deleteInquiry(inquiry)"
+              >
+                Delete
+              </button>
+            </div>
+          </td>
+        </tr>
+
+        <!-- ==============================
+             NO DATA
+        =============================== -->
+
+        <tr *ngIf="filteredInquiries.length === 0">
+          <td colspan="8" class="no-data">
+            <div class="empty-state">
+              <div class="empty-icon">📩</div>
+
+              <h3>No inquiries found</h3>
+
+              <p>There are no customer inquiries to display.</p>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

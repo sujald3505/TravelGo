@@ -1,0 +1,218 @@
+<div class="details-container">
+  <div class="details-wrapper">
+    <!-- =========================
+         HEADER
+    ========================== -->
+
+    <div class="page-header">
+      <div>
+        <button type="button" class="back-btn" (click)="goBack()">← Back to Hotels</button>
+
+        <h1>Hotel Details</h1>
+
+        <p>View complete hotel information.</p>
+      </div>
+
+      <div *ngIf="hotel" class="header-actions">
+        <a [routerLink]="['/admin/hotels/edit', hotel.id]" class="edit-btn"> ✏️ Edit Hotel </a>
+
+        <button type="button" class="delete-btn" (click)="deleteHotel()">🗑️ Delete</button>
+      </div>
+    </div>
+
+    <!-- =========================
+         ERROR
+    ========================== -->
+
+    <div *ngIf="errorMessage" class="alert error">
+      {{ errorMessage }}
+    </div>
+
+    <!-- =========================
+         LOADING
+    ========================== -->
+
+    <div *ngIf="isLoading" class="loading">
+      <div class="spinner"></div>
+
+      <p>Loading hotel details...</p>
+    </div>
+
+    <!-- =========================
+         CONTENT
+    ========================== -->
+
+    <div *ngIf="!isLoading && hotel" class="hotel-content">
+      <!-- =========================
+           MAIN CARD
+      ========================== -->
+
+      <div class="main-card">
+        <!-- Images -->
+
+        <div class="image-section">
+          <div class="main-image" *ngIf="hotel.hotelImages?.length">
+            <img
+              [src]="getImageUrl(hotel.hotelImages[0].imageUrl)"
+              [alt]="hotel.name"
+              (error)="onImageError($event)"
+              (click)="selectImage(hotel.hotelImages[0].imageUrl)"
+            />
+          </div>
+
+          <div class="main-image placeholder" *ngIf="!hotel.hotelImages?.length">🏨</div>
+
+          <!-- Thumbnails -->
+
+          <div class="thumbnail-grid" *ngIf="hotel.hotelImages?.length > 1">
+            <div
+              class="thumbnail"
+              *ngFor="let image of hotel.hotelImages"
+              (click)="selectImage(image.imageUrl)"
+            >
+              <img
+                [src]="getImageUrl(image.imageUrl)"
+                [alt]="hotel.name"
+                (error)="onImageError($event)"
+              />
+            </div>
+          </div>
+        </div>
+
+        <!-- Information -->
+
+        <div class="info-section">
+          <div class="hotel-title">
+            <div>
+              <h2>
+                {{ hotel.name }}
+              </h2>
+
+              <p class="destination">
+                📍
+                {{ hotel.destinationName }}
+              </p>
+            </div>
+
+            <span
+              class="status"
+              [class.available]="hotel.isAvailable"
+              [class.unavailable]="!hotel.isAvailable"
+            >
+              {{ hotel.isAvailable ? 'Available' : 'Unavailable' }}
+            </span>
+          </div>
+
+          <!-- Rating -->
+
+          <div class="rating-box">
+            <span class="stars">
+              <ng-container *ngFor="let star of [1, 2, 3, 4, 5]">
+                <span [class.active]="star <= hotel.starRating"> ★ </span>
+              </ng-container>
+            </span>
+
+            <strong> {{ hotel.starRating }}/5 </strong>
+          </div>
+
+          <!-- Price -->
+
+          <div class="price-box">
+            <span> Price per night </span>
+
+            <strong> ₹{{ hotel.pricePerNight | number }} </strong>
+          </div>
+
+          <!-- Address -->
+
+          <div class="detail-item">
+            <span class="label"> Address </span>
+
+            <p>
+              {{ hotel.address }}
+            </p>
+          </div>
+
+          <!-- Description -->
+
+          <div class="detail-item">
+            <span class="label"> Description </span>
+
+            <p>
+              {{ hotel.description }}
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- =========================
+           HOTEL INFORMATION
+      ========================== -->
+
+      <div class="information-card">
+        <div class="card-header">
+          <h2>Hotel Information</h2>
+        </div>
+
+        <div class="information-grid">
+          <div class="info-box">
+            <span> Hotel ID </span>
+
+            <strong> #{{ hotel.id }} </strong>
+          </div>
+
+          <div class="info-box">
+            <span> Destination </span>
+
+            <strong>
+              {{ hotel.destinationName }}
+            </strong>
+          </div>
+
+          <div class="info-box">
+            <span> Star Rating </span>
+
+            <strong> {{ hotel.starRating }} Star </strong>
+          </div>
+
+          <div class="info-box">
+            <span> Price Per Night </span>
+
+            <strong> ₹{{ hotel.pricePerNight | number }} </strong>
+          </div>
+
+          <div class="info-box">
+            <span> Availability </span>
+
+            <strong
+              [class.text-success]="hotel.isAvailable"
+              [class.text-danger]="!hotel.isAvailable"
+            >
+              {{ hotel.isAvailable ? 'Available' : 'Unavailable' }}
+            </strong>
+          </div>
+
+          <div class="info-box">
+            <span> Total Images </span>
+
+            <strong>
+              {{ hotel.hotelImages?.length || 0 }}
+            </strong>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- =========================
+     IMAGE MODAL
+========================== -->
+
+<div *ngIf="selectedImage" class="image-modal" (click)="closeImage()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <button type="button" class="close-btn" (click)="closeImage()">×</button>
+
+    <img [src]="getImageUrl(selectedImage)" alt="Hotel image" (error)="onImageError($event)" />
+  </div>
+</div>

@@ -1,0 +1,146 @@
+<!-- Loading -->
+<div class="loading-section" *ngIf="isLoading">
+  <div class="loader"></div>
+
+  <p>Loading hotel details...</p>
+</div>
+
+<!-- Hotel Details -->
+<div class="hotel-details" *ngIf="!isLoading && hotel">
+  <div class="hotel-grid">
+    <!-- ================================= -->
+    <!-- LEFT SIDE - IMAGE GALLERY -->
+    <!-- ================================= -->
+
+    <div class="left-section">
+      <!-- Main Image -->
+
+      <div class="main-image">
+        <img [src]="selectedImage || getImageUrl('')" [alt]="hotel.name" />
+      </div>
+
+      <!-- Thumbnail Gallery -->
+
+      <div class="thumbnail-grid" *ngIf="hotel.hotelImages && hotel.hotelImages.length > 0">
+        <div
+          class="thumbnail"
+          *ngFor="let image of hotel.hotelImages"
+          [class.active]="selectedImage === getImageUrl(image.imageUrl)"
+          (click)="changeImage(image.imageUrl)"
+        >
+          <img [src]="getImageUrl(image.imageUrl)" [alt]="hotel.name" />
+        </div>
+      </div>
+    </div>
+
+    <!-- ================================= -->
+    <!-- RIGHT SIDE - HOTEL INFORMATION -->
+    <!-- ================================= -->
+
+    <div class="hotel-info">
+      <!-- Hotel Name -->
+
+      <h1>
+        {{ hotel.name }}
+      </h1>
+
+      <!-- Destination -->
+
+      <p class="destination">📍 {{ hotel.destinationName }}</p>
+
+      <!-- Rating -->
+
+      <div class="rating">
+        ⭐
+
+        <strong>
+          {{ hotel.starRating }}
+        </strong>
+
+        Star Hotel
+      </div>
+
+      <!-- Price -->
+
+      <div class="price">
+        ₹{{ hotel.pricePerNight }}
+
+        <span> / Night </span>
+      </div>
+
+      <!-- Description -->
+
+      <div class="description">
+        <h2>About Hotel</h2>
+
+        <p>
+          {{ hotel.description }}
+        </p>
+      </div>
+
+      <!-- Hotel Information -->
+
+      <div class="info-list">
+        <div class="info-item">
+          <span class="icon"> 📍 </span>
+
+          <div>
+            <strong> Address </strong>
+
+            <p>
+              {{ hotel.address }}
+            </p>
+          </div>
+        </div>
+
+        <div class="info-item">
+          <span class="icon"> ⭐ </span>
+
+          <div>
+            <strong> Rating </strong>
+
+            <p>{{ hotel.starRating }} Star</p>
+          </div>
+        </div>
+
+        <div class="info-item">
+          <span class="icon"> 🏨 </span>
+
+          <div>
+            <strong> Hotel Status </strong>
+
+            <p [class.available]="hotel.isAvailable" [class.notAvailable]="!hotel.isAvailable">
+              {{ hotel.isAvailable ? 'Available' : 'Not Available' }}
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Buttons -->
+
+      <div class="action-buttons">
+        <button
+          class="book-btn"
+          [routerLink]="['/booking', hotel.destinationId, packageId, hotel.id]"
+        >
+          Book Now
+        </button>
+
+        <button
+          class="back-btn"
+          [routerLink]="['/hotels/destination', hotel.destinationId, 'package', packageId]"
+        >
+          Back to Hotels
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Not Found -->
+
+<div class="not-found" *ngIf="!isLoading && !hotel">
+  <h2>Hotel Not Found</h2>
+
+  <button class="back-btn" routerLink="/hotels">Back to Hotels</button>
+</div>
