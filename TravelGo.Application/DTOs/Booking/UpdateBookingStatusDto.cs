@@ -1,0 +1,6 @@
+namespace TravelGo.Application.DTOs.Booking;
+
+public class UpdateBookingStatusDto
+{
+    public string Status { get; set; } = string.Empty;
+}
