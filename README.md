@@ -1,122 +1,107 @@
 # ✈️ TravelGo
 
-**TravelGo** is a full-stack Travel Agency web application built with
-**Angular 21** and **ASP.NET Core Web API (.NET 8)**.
+**TravelGo** is a full-stack travel agency web application built with **Angular 21**, **ASP.NET Core Web API (.NET 8)**, **Entity Framework Core 8**, and **Microsoft SQL Server**.
 
-The application allows users to explore destinations, packages and
-hotels, make bookings, manage their bookings and use a secure
-authentication system. It also includes an admin panel for managing the
-travel agency data.
-
-------------------------------------------------------------------------
+The platform provides a customer-facing travel website for exploring destinations, packages and hotels, along with booking, payment flow, booking details and invoice functionality. It also includes an administration panel for managing the travel agency platform.
 
 ## 🚀 Tech Stack
 
 ### Frontend
-
--   Angular 21
--   TypeScript
--   HTML5
--   CSS3
--   Angular Reactive Forms
--   Angular Router
--   RxJS
--   JWT Authentication
--   HTTP Interceptors
--   Route Guards
+- Angular 21
+- TypeScript
+- HTML5
+- CSS3
+- Angular Router
+- Angular Reactive Forms
+- RxJS
+- HTTP Interceptors
+- Route Guards
 
 ### Backend
-
--   ASP.NET Core Web API (.NET 8)
--   C#
--   Entity Framework Core 8
--   RESTful APIs
--   JWT Authentication
--   BCrypt Password Hashing
--   AutoMapper
--   Swagger / OpenAPI
+- ASP.NET Core Web API (.NET 8)
+- C#
+- Entity Framework Core 8
+- RESTful APIs
+- JWT Authentication
+- BCrypt password hashing
+- AutoMapper
+- Swagger / OpenAPI
 
 ### Database
+- Microsoft SQL Server
+- Entity Framework Core Migrations
 
--   Microsoft SQL Server
--   Entity Framework Core Migrations
-
-------------------------------------------------------------------------
+---
 
 ## ✨ Features
 
-### 👤 User Features
-
--   User Registration
--   User Login
--   JWT Authentication
--   Protected Routes
--   Destination Browsing
--   Package Browsing
--   Package Details
--   Destination-wise Hotels
--   Hotel Details
--   Booking
--   My Bookings
--   Booking Details
--   Payment Flow
--   Invoice Download
--   Logout
+### 👤 Customer Features
+- User registration and login
+- JWT-based authentication
+- Protected routes
+- Browse destinations
+- Browse destination packages
+- Package details
+- Destination-wise hotels
+- Hotel details
+- Travel booking
+- Payment flow
+- Booking details
+- Invoice download
+- My Bookings
+- Logout
 
 ### 🛠️ Admin Features
-
--   Admin Login
--   Admin Dashboard
--   Destination Management
--   Add Destination
--   Edit Destination
--   View Destination Details
--   Package Management
--   Add Package
--   Edit Package
--   View Package Details
--   Hotel Management
--   Add Hotel
--   Edit Hotel
--   View Hotel Details
--   Booking Management
--   Booking Status Management
--   User Management
--   Inquiry Management
--   Image Management
+- Admin authentication
+- Admin dashboard
+- Destination management
+  - Add destination
+  - Edit destination
+  - View destination details
+- Package management
+  - Add package
+  - Edit package
+  - View package details
+- Hotel management
+  - Add hotel
+  - Edit hotel
+  - View hotel details
+- Booking management
+- Booking status management
+- User management
+- Inquiry management
+- Image management
 
 ### 🖼️ Image Management
+- Destination images
+- Package images
+- Hotel images
+- Image upload APIs
+- Thumbnail support
+- Static file serving through `wwwroot/uploads`
 
--   Destination Images
--   Package Images
--   Hotel Images
--   Image Upload APIs
--   Thumbnail Support
-
-------------------------------------------------------------------------
+---
 
 ## 🔐 Authentication & Authorization
 
-TravelGo uses **JWT-based authentication**.
+TravelGo uses JWT-based authentication and role-based authorization.
 
 The application includes:
 
--   Login and Registration APIs
--   JWT token generation
--   Password hashing using BCrypt
--   Angular authentication service
--   HTTP authentication interceptor
--   Route guards for protected pages
--   Role-based admin functionality
+- User registration and login APIs
+- JWT token generation
+- BCrypt password hashing
+- Angular authentication service
+- HTTP authentication interceptor
+- Route guards
+- Role-based admin functionality
+- Protected customer and admin pages
 
-Protected pages such as booking, payment and my bookings require the
-user to be authenticated.
-
-------------------------------------------------------------------------
+---
 
 ## 🧭 Application Flow
 
-``` text
+```text
 Home
   ↓
 Destinations
@@ -140,88 +125,173 @@ Invoice
 My Bookings
 ```
 
-------------------------------------------------------------------------
+### Admin Flow
 
-## 🏗️ Project Structure
+```text
+Admin Login
+    ↓
+Admin Dashboard
+    ↓
+Manage Destinations
+    ↓
+Manage Packages
+    ↓
+Manage Hotels
+    ↓
+Manage Bookings
+    ↓
+Manage Users
+    ↓
+Manage Inquiries
+```
 
-``` text
+---
+
+## 🏗️ Clean Architecture
+
+The backend has been reorganized into a Clean Architecture-style solution with separate responsibilities for API, Application, Domain and Infrastructure.
+
+```text
 TravelGo/
 │
 ├── TravelAgency.API/
-│   ├── TravelAgency.API.sln
-│   │
-│   └── TravelAgency.API/
-│       ├── Authentication/
-│       ├── Controllers/
-│       ├── Data/
-│       ├── DTOs/
-│       ├── Interfaces/
-│       ├── Mappings/
-│       ├── Migrations/
-│       ├── Models/
-│       ├── Repositories/
-│       ├── Services/
-│       ├── wwwroot/
-│       │   └── uploads/
-│       │
-│       ├── Program.cs
-│       └── appsettings.json
+│   ├── Controllers/
+│   ├── Properties/
+│   ├── wwwroot/
+│   │   └── uploads/
+│   ├── Program.cs
+│   ├── TravelAgency.API.csproj
+│   └── appsettings.json
 │
-├── travel-agency/
+├── TravelGo.Application/
+│   ├── DTOs/
+│   ├── Helpers/
+│   ├── Interfaces/
+│   ├── Mappings/
+│   ├── Services/
+│   └── TravelGo.Application.csproj
+│
+├── TravelGo.Domain/
+│   ├── Entities/
+│   ├── Interfaces/
+│   └── TravelGo.Domain.csproj
+│
+├── TravelGo.Infrastructure/
+│   ├── Authentication/
+│   ├── Data/
+│   ├── Migrations/
+│   ├── Repositories/
+│   ├── Seed/
+│   ├── Services/
+│   └── TravelGo.Infrastructure.csproj
+│
+├── travel-agency [Frontend]/
+│   ├── public/
 │   ├── src/
 │   │   ├── app/
 │   │   │   ├── admin/
+│   │   │   ├── components/
 │   │   │   ├── core/
 │   │   │   └── pages/
-│   │   ├── environments/
-│   │   └── ...
-│   │
+│   │   └── environments/
 │   ├── angular.json
 │   ├── package.json
 │   └── tsconfig.json
 │
 ├── .gitignore
+├── TravelGo.sln
 └── README.md
 ```
 
-------------------------------------------------------------------------
+### Architecture Responsibilities
+
+| Layer | Responsibility |
+|---|---|
+| `TravelGo.Domain` | Core entities and repository contracts |
+| `TravelGo.Application` | DTOs, interfaces, mappings and application services |
+| `TravelGo.Infrastructure` | Database access, repositories, authentication, migrations and infrastructure services |
+| `TravelAgency.API` | HTTP API, controllers, configuration and application entry point |
+| `travel-agency [Frontend]` | Angular customer and admin interfaces |
+
+---
+
+## 🔗 Main API Modules
+
+The backend contains API functionality for:
+
+- Authentication
+- Destinations
+- Packages
+- Package Images
+- Hotels
+- Hotel Images
+- Bookings
+- My Bookings
+- Users
+- Inquiries
+- Dashboard
+- Image Uploads
+
+---
+
+## 🗄️ Main Database Entities
+
+The application contains entities including:
+
+- User
+- Role
+- Destination
+- Package
+- Hotel
+- Booking
+- PackageImage
+- HotelImage
+- Inquiry
+
+Entity relationships and database migrations are handled through Entity Framework Core.
+
+---
 
 ## ⚙️ Prerequisites
 
-Make sure the following are installed:
+Install the following before running the project:
 
--   Node.js
--   npm
--   Angular CLI
--   .NET 8 SDK
--   SQL Server / SQL Server LocalDB
--   Visual Studio or Visual Studio Code
--   Git
+- Node.js
+- npm
+- Angular CLI
+- .NET 8 SDK
+- Microsoft SQL Server or SQL Server LocalDB
+- Visual Studio / Visual Studio Code
+- Git
 
-------------------------------------------------------------------------
+---
 
 ## 🔧 Backend Setup
 
-### 1. Navigate to the API project
+### 1. Clone the repository
 
-``` bash
-cd TravelAgency.API/TravelAgency.API
+```bash
+git clone https://github.com/sujald3505/TravelGo.git
+cd TravelGo
 ```
 
-### 2. Restore NuGet packages
+### 2. Restore .NET dependencies
 
-``` bash
+```bash
 dotnet restore
 ```
 
 ### 3. Configure the database
 
-Update the connection string in `appsettings.json` according to your SQL
-Server setup.
+Update the connection string in:
+
+```text
+TravelAgency.API/appsettings.json
+```
 
 Example:
 
-``` json
+```json
 {
   "ConnectionStrings": {
     "DefaultConnection": "Server=(localdb)\\MSSQLLocalDB;Database=TravelAgencyDB;Trusted_Connection=True;TrustServerCertificate=True;"
@@ -229,138 +299,156 @@ Example:
 }
 ```
 
-> Do not commit production credentials or private secrets to GitHub.
+> Do not commit production database credentials, JWT secrets or other private configuration to GitHub.
 
-### 4. Apply migrations
+### 4. Apply Entity Framework migrations
 
-``` bash
-dotnet ef database update
+From the solution root:
+
+```bash
+dotnet ef database update --project TravelGo.Infrastructure --startup-project TravelAgency.API
 ```
 
 ### 5. Run the backend
 
-``` bash
-dotnet run
+```bash
+dotnet run --project TravelAgency.API
 ```
 
-The API will run on the configured HTTPS/HTTP development URL.
+Swagger / OpenAPI will be available at the development URL shown by ASP.NET Core.
 
-Swagger can be opened from the URL shown by the ASP.NET Core
-application.
-
-------------------------------------------------------------------------
+---
 
 ## 💻 Frontend Setup
 
-### 1. Navigate to Angular project
+Open a new terminal from the solution root.
 
-``` bash
-cd travel-agency
+### 1. Navigate to the frontend
+
+```bash
+cd "travel-agency [Frontend]"
 ```
 
 ### 2. Install dependencies
 
-``` bash
+```bash
 npm install
 ```
 
-### 3. Start Angular development server
+### 3. Start Angular
 
-``` bash
+```bash
 ng serve
 ```
 
 Open:
 
-``` text
+```text
 http://localhost:4200
 ```
 
-------------------------------------------------------------------------
+---
 
-## 🔗 Main API Modules
+## 🔄 Running Both Applications
 
-The backend contains APIs for:
+Run the backend and frontend in separate terminals.
 
-``` text
-Auth
-Destination
-Package
-Package Image
-Hotel
-Hotel Image
-Booking
-My Booking
-User
-Inquiry
-Dashboard
-Image Upload
+### Terminal 1 — Backend
+
+```bash
+dotnet run --project TravelAgency.API
 ```
 
-------------------------------------------------------------------------
+### Terminal 2 — Frontend
 
-## 🗄️ Main Database Entities
+```bash
+cd "travel-agency [Frontend]"
+ng serve
+```
 
-The project contains entities including:
+Make sure the Angular environment configuration points to the correct backend API URL.
 
--   User
--   Role
--   Destination
--   Package
--   Hotel
--   Booking
--   PackageImage
--   HotelImage
--   Inquiry
+---
 
-Entity relationships are managed using **Entity Framework Core**.
+## 📁 Frontend Structure
 
-------------------------------------------------------------------------
+The Angular application is organized into:
+
+```text
+travel-agency [Frontend]/
+└── src/
+    └── app/
+        ├── admin/
+        │   ├── admin-layout/
+        │   ├── admin-login/
+        │   └── pages/
+        │
+        ├── components/
+        │   ├── navbar/
+        │   └── footer/
+        │
+        ├── core/
+        │   ├── guards/
+        │   ├── interceptors/
+        │   ├── models/
+        │   ├── resolvers/
+        │   └── services/
+        │
+        └── pages/
+            ├── about/
+            ├── booking/
+            ├── booking-details/
+            ├── contact/
+            ├── destination-details/
+            ├── destinations/
+            ├── home/
+            ├── hotel/
+            ├── hotel-details/
+            ├── login/
+            ├── my-bookings/
+            ├── package-details/
+            ├── packages/
+            ├── payment/
+            └── register/
+```
+
+---
 
 ## 🛡️ Security
 
-The project follows several security practices:
+The project includes:
 
--   JWT authentication
--   Password hashing with BCrypt
--   Protected Angular routes
--   Authorization headers through HTTP interceptor
--   Environment-based API configuration
--   Sensitive development configuration excluded through `.gitignore`
+- JWT authentication
+- BCrypt password hashing
+- Protected Angular routes
+- Authorization headers through HTTP interceptor
+- Role-based admin access
+- Environment-based API configuration
+- `.gitignore` for excluding development-specific files
 
-------------------------------------------------------------------------
+---
 
-## 📦 GitHub Repository
+## 📌 Project Status
 
-**Repository:** TravelGo
+TravelGo is a full-stack travel agency project developed with a customer-facing Angular application and an administrative management panel. The backend is structured using separate Domain, Application, Infrastructure and API projects.
 
-``` text
-https://github.com/sujald3505/TravelGo
-```
-
-------------------------------------------------------------------------
+---
 
 ## 👨‍💻 Author
 
 **Sujal Dudhatra**
 
-GitHub:
-
-``` text
+GitHub:  
 https://github.com/sujald3505
-```
 
-------------------------------------------------------------------------
+---
 
-## 📌 Project Status
+## 🔗 Repository
 
-TravelGo is being developed as a complete full-stack Travel Agency
-application with a customer-facing website and an administrative
-management panel.
+https://github.com/sujald3505/TravelGo
 
-------------------------------------------------------------------------
+---
 
 ## 📄 License
 
-This project is developed for learning, portfolio and educational
-purposes.
+This project is developed for **learning, portfolio and educational purposes**.
